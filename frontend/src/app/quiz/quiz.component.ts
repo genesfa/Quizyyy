@@ -17,28 +17,31 @@ import {confetti} from '@tsparticles/confetti';
 })
 export class QuizComponent implements OnInit, OnDestroy {
 
-
-
   confettiSubscription: Subscription | undefined;
+  topTeams: { name: string; score: number }[] = [];
+  topTeamsSubscription: Subscription | undefined;
 
   constructor(private socketService: SocketioService) {}
 
-
-
-   ngOnInit(): void {
+  ngOnInit(): void {
     this.socketService.connect();
-
 
     // Subscribe to the 'triggerConffeti' event
     this.confettiSubscription = this.socketService.onMessage('triggerConfetti').subscribe(() => {
       console.log('triggerConfetti');
       this.shotConfetti(true)
     });
-     this.shotConfetti(false)
+    this.shotConfetti(false);
 
+    // Subscribe to the 'updateTeams' event to update top teams
+    this.topTeamsSubscription = this.socketService.onMessage('updateTeams').subscribe((teams: any[]) => {
+      this.topTeams = teams
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 5);
+    });
   }
 
-   generateRandomColors(x: number): string[] {
+  generateRandomColors(x: number): string[] {
     const colors: string[] = [];
 
     for (let i = 0; i < x; i++) {
@@ -51,52 +54,40 @@ export class QuizComponent implements OnInit, OnDestroy {
     return colors;
   }
 
-
-
-
-
-  shotConfetti(visible:boolean){
+  shotConfetti(visible: boolean): void {
     var count = 0;
     if (visible) {
-      count =50;
+      count = 50;
     }
-  (async () => {
-    await confetti("tsparticles", {
-
-
-
-      angle: 90,
-      count: count,
-      position: {
-        x: 50,
-        y: 50,
-      },
-      spread: 45,
-      startVelocity: 45,
-      decay: 0.9,
-      gravity: 1,
-      drift: 0,
-      ticks: 200,
-      colors: this.generateRandomColors(5),
-      shapes: ["square", "circle"],
-      scalar: 1,
-      zIndex: 100,
-      disableForReducedMotion: true,
-    });
-  })();
-}
-
+    (async () => {
+      await confetti("tsparticles", {
+        angle: 90,
+        count: count,
+        position: {
+          x: 50,
+          y: 50,
+        },
+        spread: 45,
+        startVelocity: 45,
+        decay: 0.9,
+        gravity: 1,
+        drift: 0,
+        ticks: 200,
+        colors: this.generateRandomColors(5),
+        shapes: ["square", "circle"],
+        scalar: 1,
+        zIndex: 100,
+        disableForReducedMotion: true,
+      });
+    })();
+  }
 
   ngOnDestroy(): void {
     if (this.confettiSubscription) {
       this.confettiSubscription.unsubscribe();
     }
+    if (this.topTeamsSubscription) {
+      this.topTeamsSubscription.unsubscribe();
+    }
   }
-
-
-
-
-
-
-
 }

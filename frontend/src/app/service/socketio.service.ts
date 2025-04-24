@@ -9,7 +9,19 @@ export class SocketioService {
   private socket: Socket;
 
   constructor() {
-    this.socket = io('http://localhost:9092'); // Replace with your backend SocketIO server URL
+    let sessionId = localStorage.getItem('socketio_session_id');
+    if (!sessionId) {
+      sessionId = this.generateSessionId();
+      localStorage.setItem('socketio_session_id', sessionId);
+    }
+
+    this.socket = io('http://localhost:9092', {
+      query: { sessionId } // Send sessionId as a query parameter
+    });
+  }
+
+  private generateSessionId(): string {
+    return crypto.randomUUID(); // Generate a UUID
   }
 
   connect(): void {
@@ -22,8 +34,12 @@ export class SocketioService {
     });
   }
 
-  sendMessage(event: string, data: any): void {
-    this.socket.emit(event, data);
+  sendMessage(event: string, data: any, ackCallback?: (response: any) => void): void {
+    if (ackCallback) {
+      this.socket.emit(event, data, ackCallback); // Emit with acknowledgment callback
+    } else {
+      this.socket.emit(event, data); // Emit without acknowledgment
+    }
   }
 
   triggerConfetti(event: string): void {

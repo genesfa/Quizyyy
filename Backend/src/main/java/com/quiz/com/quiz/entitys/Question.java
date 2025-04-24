@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import jakarta.persistence.Access;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,8 @@ public class Question {
     private Long id;
 
     private QuestionType questionType;
+
+    @Column(unique = true)
     private String name;
 
 }

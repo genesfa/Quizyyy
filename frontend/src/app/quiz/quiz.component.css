@@ -1,4 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@1,700&display=swap');
+
+body {
+  background-color: #1e1e2f;
+  color: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: 'Libre Baskerville', serif;
+}
+
 .app-container {
   position: relative;
   z-index: 1; /* Ensure your content is above the particles */
+}
+
+.top-teams-panel {
+  position: absolute;
+  top: 2em; /* Use em for top spacing */
+  right: 2em; /* Use em for right spacing */
+  width: 15%; /* Use percentage for width to make it scalable */
+  max-width: 300px; /* Set a maximum width for larger screens */
+  min-width: 150px; /* Set a minimum width for smaller screens */
+  border: 2px solid #ff9800; /* Bright border for better contrast */
+  padding: 1em; /* Use relative padding */
+  background-color: rgba(0, 0, 0, 0.7); /* Darker semi-transparent background */
+  border-radius: 10px; /* Slightly rounded corners */
+  z-index: 2;
+  color: #ffffff; /* White text for contrast */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+}
+
+.top-teams-panel h3 {
+  margin: 0 0 0.5em 0; /* Use relative margins */
+  font-size: 1.2em; /* Use relative font size */
+  color: #ff9800; /* Bright color for the title */
+  text-align: center; /* Center-align the title */
+}
+
+.top-teams-panel ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.top-teams-panel li {
+  margin: 0.3em 0; /* Use relative margins */
+  font-size: 1em; /* Use relative font size */
+  color: #d3d3d3; /* Fancy gray for team names and scores */
+}
+
+.logo {
+  position: absolute;
+  top: 2em; /* Adjust distance from the top */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Center the logo */
+  text-align: center;
+  color: #ffffff; /* White text for contrast */
+  font-family: 'Arial', sans-serif; /* Clean and modern font */
+  z-index: 3; /* Ensure it stays above other elements */
+  background: linear-gradient(135deg, #ff6347, #4682b4); /* Gradient background */
+  padding: 1.5em; /* Add padding around the logo */
+  border-radius: 20px; /* Rounded corners for the background */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4); /* Stronger shadow for depth */
+  border: 3px solid transparent; /* Glowing border */
+  animation: borderGlow 3s infinite alternate; /* Dynamic glowing border */
+  letter-spacing: 1px;
+}
+
+.logo h1 {
+  margin: 0;
+  font-size: 3rem;
+  background: linear-gradient(90deg, #00ffcc, #00bfff, #1e90ff); /* Cool tones for better contrast */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+  letter-spacing: 0.1em; /* Add spacing between letters */
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5); /* Reduce shadow intensity for better readability */
+}
+
+.logo h2 {
+  margin: 0;
+  font-size: 2.5em; /* Larger font for the subtitle */
+  font-style: italic;
+  color: #ffffff; /* White color for the subtitle */
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5); /* Subtle shadow for subtitle */
+}
+
+.logo p {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  font-style: italic;
+  color: #a1a1aa;
+}
+
+/* Glowing animation */
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px #00ffcc, 0 0 20px #00bfff, 0 0 30px #1e90ff, 0 0 40px #1e90ff;
+  }
+  to {
+    text-shadow: 0 0 20px #00bfff, 0 0 30px #1e90ff, 0 0 40px #00ffcc, 0 0 50px #00ffcc;
+  }
+}
+
+/* Glowing border animation */
+@keyframes borderGlow {
+  from {
+    border-color: #00ffcc;
+    box-shadow: 0 0 15px #00ffcc, 0 0 30px #00bfff;
+  }
+  to {
+    border-color: #1e90ff;
+    box-shadow: 0 0 15px #1e90ff, 0 0 30px #00ffcc;
+  }
 }

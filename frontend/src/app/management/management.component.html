@@ -1,3 +1,31 @@
-<div
-   class="app-container">
-  <button mat-raised-button  (click)="triggerConfetti()">Confetti</button> </div>
+<div class="app-container">
+  <div class="team-list">
+    <mat-list>
+      <mat-list-item *ngFor="let team of teams">
+        <div class="team-item" style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="flex: 1; min-width: 200px;">{{ team.name }}: {{ team.score }}</span>
+          <div style="display: flex; gap: 8px;">
+            <button mat-raised-button color="primary" (click)="addPoints(team, 5)">+5</button>
+            <button mat-raised-button color="primary" (click)="addPoints(team, 3)">+3</button>
+            <button mat-raised-button color="primary" (click)="addPoints(team, 2)">+2</button>
+            <button mat-raised-button color="primary" (click)="addPoints(team, 1)">+1</button>
+            <button mat-raised-button color="warn" (click)="addPoints(team, -1)">-1</button>
+          </div>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </div>
+
+
+
+  <!-- Updated panel for question navigation -->
+  <div class="question-navigation" style="margin-top: 20px; display: flex; gap: 10px;">
+    <button mat-raised-button color="primary" (click)="lastQuestion()">Last Question</button>
+    <button mat-raised-button color="accent" (click)="nextClue()">Next Clue</button>
+    <button mat-raised-button color="warn" (click)="nextQuestion()">Next Question</button>
+    <button mat-raised-button color="basic" (click)="closeQuestion()">Close Question</button>
+  </div>
+  <div class="app-container">
+   <button mat-raised-button (click)="triggerConfetti()">Confetti</button>
+ </div>
+</div>

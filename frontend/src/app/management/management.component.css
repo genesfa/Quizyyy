@@ -1,4 +1,22 @@
 .app-container {
   position: relative;
   z-index: 1; /* Ensure your content is above the particles */
+  color: #ffffff;
+  padding: 16px;
 }
+
+.team-list {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.team-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
