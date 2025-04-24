@@ -1,14 +1,23 @@
 import { Routes } from '@angular/router';
 
 import { ManagementComponent } from './management/management.component';
-import {ChatComponent} from './chat/chat.component';
 import {QuizComponent} from './quiz/quiz.component'; // Import the new component
+import { InputComponent } from './input/input.component';
+import {PasswordGuard} from './password.guard';
+
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'quiz', pathMatch: 'full' }, // Redirect root to /chat
-
-  { path: 'chat', component: ChatComponent }, // The new /chat route
-  { path: 'quiz', component: QuizComponent }, // The new /chat route
-  { path: 'management', component: ManagementComponent },
-  { path: '**', redirectTo: 'quiz' }, // Redirect root to /chat
+  { path: '', redirectTo: 'input', pathMatch: 'full' }, // Redirect root to /chat
+  {
+    path: 'quiz',
+    component: QuizComponent,
+    canActivate: [PasswordGuard]
+  },
+  {
+    path: 'management',
+    component: ManagementComponent,
+    canActivate: [PasswordGuard]
+  },
+  { path: 'input', component: InputComponent },
+  { path: '**', redirectTo: 'input' }, // Redirect root to /chat
 ];

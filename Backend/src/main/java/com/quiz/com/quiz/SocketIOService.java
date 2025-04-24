@@ -1,18 +1,28 @@
 package com.quiz.com.quiz;
 
 import com.corundumstudio.socketio.SocketIOServer;
+import com.quiz.com.quiz.entitys.Question;
+import com.quiz.com.quiz.entitys.QuestionType;
+import com.quiz.com.quiz.repositorys.QuestionRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
+@Transactional
 public class SocketIOService {
 
     private final SocketIOServer server;
 
-    public SocketIOService(SocketIOServer server) {
-        this.server = server;
-    }
+    private final QuestionRepository questionRepository;
+
 
     @PostConstruct
     public void startServer() {
@@ -38,7 +48,8 @@ public class SocketIOService {
             System.out.println("triggerConfetti");
             server.getBroadcastOperations().sendEvent("triggerConfetti");
             ackSender.sendAckData("Message received by server");
-        });
+            questionRepository.findAll().forEach(question -> {System.out.println(question.getName());});
+           });
     }
 
     @PreDestroy

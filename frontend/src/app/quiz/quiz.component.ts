@@ -32,9 +32,9 @@ export class QuizComponent implements OnInit, OnDestroy {
     // Subscribe to the 'triggerConffeti' event
     this.confettiSubscription = this.socketService.onMessage('triggerConfetti').subscribe(() => {
       console.log('triggerConfetti');
-      this.shotConfetti()
+      this.shotConfetti(true)
     });
-     this.shotConfetti()
+     this.shotConfetti(false)
 
   }
 
@@ -55,14 +55,18 @@ export class QuizComponent implements OnInit, OnDestroy {
 
 
 
-  shotConfetti(){
+  shotConfetti(visible:boolean){
+    var count = 0;
+    if (visible) {
+      count =50;
+    }
   (async () => {
     await confetti("tsparticles", {
 
 
 
       angle: 90,
-      count: 50,
+      count: count,
       position: {
         x: 50,
         y: 50,

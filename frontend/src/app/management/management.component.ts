@@ -1,9 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {SocketioService} from "../service/socketio.service";
+import {MatButton} from '@angular/material/button';
 
 @Component({
   selector: 'app-management',
-  imports: [],
+  imports: [
+    MatButton
+  ],
   templateUrl: './management.component.html',
   styleUrl: './management.component.css'
 })
