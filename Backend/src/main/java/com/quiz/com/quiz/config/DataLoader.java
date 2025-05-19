@@ -24,7 +24,11 @@ public class DataLoader {
         System.out.println("Loading questions...");
         try {
             ObjectMapper mapper = new ObjectMapper();
-            InputStream inputStream = getClass().getResourceAsStream("./question.json");
+            InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("question.json");
+            if (inputStream == null) {
+                System.err.println("Resource 'question.json' not found in the classpath.");
+                return;
+            }
             List<Question> questions = mapper.readValue(inputStream, new TypeReference<List<Question>>() {});
             for (Question question : questions) {
                 questionRepository.findByName(question.getName())

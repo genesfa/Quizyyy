@@ -18,6 +18,7 @@ import {NgForOf} from '@angular/common';
 })
 export class ManagementComponent implements OnInit {
   teams: Team[] = []; // List of teams
+  currentQuestionTitle: string = ''; // Store the current question title
 
   constructor(private socketService: SocketioService) {}
 
@@ -35,6 +36,11 @@ export class ManagementComponent implements OnInit {
     this.socketService.sendMessage('getTeams', null, (response: Team[]) => {
       this.teams = response; // Write the response into this.teams
       console.log("Initial team list:", this.teams);
+    });
+
+    this.socketService.onMessage('updateQuestions').subscribe((data: any) => {
+      console.log(data)
+      this.currentQuestionTitle = data.name; // Update the current question title
     });
   }
 
@@ -68,5 +74,15 @@ export class ManagementComponent implements OnInit {
   closeQuestion() {
     console.log('Close Question button clicked');
     this.socketService.sendMessage('closeQuestion', {});
+  }
+
+  showSolution() {
+    console.log('Show Solution button clicked');
+    this.socketService.sendMessage('showSolution', {});
+  }
+
+  showClue(clueNumber: number) {
+    console.log(`Show Clue ${clueNumber} button clicked`);
+    this.socketService.sendMessage('showClue', { clueNumber }); // Send an object with clueNumber
   }
 }

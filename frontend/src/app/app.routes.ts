@@ -4,6 +4,7 @@ import { ManagementComponent } from './management/management.component';
 import {QuizComponent} from './quiz/quiz.component'; // Import the new component
 import { InputComponent } from './input/input.component';
 import {PasswordGuard} from './password.guard';
+import {PasswordGuardQuiz} from './password.guard.quiz';
 
 
 export const routes: Routes = [
@@ -11,7 +12,7 @@ export const routes: Routes = [
   {
     path: 'quiz',
     component: QuizComponent,
-    canActivate: [PasswordGuard]
+    canActivate: [PasswordGuardQuiz]
   },
   {
     path: 'management',

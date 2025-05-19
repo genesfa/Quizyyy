@@ -25,5 +25,9 @@ public class Question {
 
     @Column(unique = true)
     private String name;
-
+    private String clue1;
+    private String clue2;
+    private String clue3;
+    private String clue4;
+    private String solution;
 }

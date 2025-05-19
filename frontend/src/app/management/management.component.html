@@ -16,7 +16,9 @@
     </mat-list>
   </div>
 
-
+  <div class="current-question" style="margin-top: 20px;">
+    <h3>Current Question: {{ currentQuestionTitle }}</h3>
+  </div>
 
   <!-- Updated panel for question navigation -->
   <div class="question-navigation" style="margin-top: 20px; display: flex; gap: 10px;">
@@ -24,8 +26,17 @@
     <button mat-raised-button color="accent" (click)="nextClue()">Next Clue</button>
     <button mat-raised-button color="warn" (click)="nextQuestion()">Next Question</button>
     <button mat-raised-button color="basic" (click)="closeQuestion()">Close Question</button>
+    <button mat-raised-button color="accent" (click)="showSolution()">Show Solution</button>
   </div>
+
+  <div class="clue-buttons" style="margin-top: 20px; display: flex; gap: 10px;">
+    <button mat-raised-button color="primary" (click)="showClue(1)">Show Clue 1</button>
+    <button mat-raised-button color="primary" (click)="showClue(2)">Show Clue 2</button>
+    <button mat-raised-button color="primary" (click)="showClue(3)">Show Clue 3</button>
+    <button mat-raised-button color="primary" (click)="showClue(4)">Show Clue 4</button>
+  </div>
+
   <div class="app-container">
-   <button mat-raised-button (click)="triggerConfetti()">Confetti</button>
- </div>
+    <button mat-raised-button (click)="triggerConfetti()">Confetti</button>
+  </div>
 </div>

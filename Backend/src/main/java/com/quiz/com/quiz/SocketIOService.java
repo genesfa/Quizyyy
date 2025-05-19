@@ -2,6 +2,9 @@ package com.quiz.com.quiz;
 
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.HandshakeData;
+import com.corundumstudio.socketio.SocketIOClient;
+import com.corundumstudio.socketio.listener.DataListener;
+import com.quiz.com.quiz.dto.ClueData;
 import com.quiz.com.quiz.entitys.Question;
 import com.quiz.com.quiz.entitys.QuestionType;
 import com.quiz.com.quiz.entitys.Team;
@@ -10,11 +13,15 @@ import com.quiz.com.quiz.repositorys.TeamRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 @RequiredArgsConstructor
@@ -28,10 +35,16 @@ public class SocketIOService {
 
     private final TeamRepository teamRepository;
 
+    private final AtomicInteger currentQuestionIndex = new AtomicInteger(0); // Track the current question index
+    private List<Question> questions; // Cache the list of questions
+
     @PostConstruct
     public void startServer() {
         server.start();
         System.out.println("SocketIO server started on port " + server.getConfiguration().getPort());
+
+        // Load all questions from the database
+        questions = questionRepository.findAll();
 
         server.addConnectListener(client -> {
             HandshakeData handshakeData = client.getHandshakeData();
@@ -111,5 +124,67 @@ public class SocketIOService {
                 ackSender.sendAckData("Team not found");
             }
         });
+
+        server.addEventListener("getCurrentQuestion", Void.class, (client, data, ackRequest) -> {
+            String currentQuestion = getCurrentQuestion();
+            client.sendEvent("currentQuestion", currentQuestion);
+        });
+
+        server.addEventListener("nextQuestion", Void.class, (client, data, ackRequest) -> {
+            if (currentQuestionIndex.incrementAndGet() >= questions.size()) {
+                currentQuestionIndex.set(questions.size() - 1); // Prevent going out of bounds
+            }
+            broadcastQuestionUpdate();
+        });
+
+        server.addEventListener("lastQuestion", Void.class, (client, data, ackRequest) -> {
+            if (currentQuestionIndex.decrementAndGet() < 0) {
+                currentQuestionIndex.set(0); // Prevent going below 0
+            }
+            broadcastQuestionUpdate();
+        });
+
+        server.addEventListener("showSolution", Void.class, (client, data, ackRequest) -> {
+            System.out.println("Show Solution event triggered");
+            server.getBroadcastOperations().sendEvent("showSolution", questions.get(currentQuestionIndex.get()).getSolution());
+        });
+
+        server.addEventListener("showClue", Integer.class, (client, data, ackRequest) -> {
+            int clueNumber = data;
+            Question currentQuestion = questions.get(currentQuestionIndex.get());
+            String clue = null;
+
+            switch (clueNumber) {
+                case 1:
+                    clue = currentQuestion.getClue1();
+                    break;
+                case 2:
+                    clue = currentQuestion.getClue2();
+                    break;
+                case 3:
+                    clue = currentQuestion.getClue3();
+                    break;
+                case 4:
+                    clue = currentQuestion.getClue4();
+                    break;
+            }
+
+            if (clue != null) {
+                server.getBroadcastOperations().sendEvent("showClue", new ClueData(clueNumber, clue));
+            }
+        });
     }
+
+    private void broadcastQuestionUpdate() {
+        Question currentQuestion = questions.get(currentQuestionIndex.get());
+        server.getBroadcastOperations().sendEvent("updateQuestions", currentQuestion);
+    }
+
+    private String getCurrentQuestion() {
+        if (questions.isEmpty()) {
+            return "No questions available";
+        }
+        return questions.get(currentQuestionIndex.get()).getName(); // Return the name of the current question
+    }
+
 }

@@ -3,6 +3,19 @@
     <h1>Verknüpft & Zugenäht</h1>
     <p>Von Laura & Fabi</p>
   </div>
+  <div *ngIf="currentQuestion" class="active-question">
+    <div class="question-id-card">
+      <h3>Question: {{ currentQuestion.id }}</h3>
+    </div>
+    <div *ngIf="showCluesAndSolution">
+      <div *ngFor="let clue of currentQuestion.clues" class="clue-card">
+        {{ clue }}
+      </div>
+      <div class="solution-card">
+        {{ currentQuestion.solution }}
+      </div>
+    </div>
+  </div>
   <div *ngIf="topTeams.length > 0" class="top-teams-panel">
     <h3>Top 5 Teams</h3>
     <ul>

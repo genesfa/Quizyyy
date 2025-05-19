@@ -1,11 +1,9 @@
-import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {SocketioService} from '../service/socketio.service';
 
 import {CommonModule} from '@angular/common';
-import {Container, Engine, MoveDirection, OutMode} from '@tsparticles/engine';
-import { loadSlim } from "@tsparticles/slim";
-import {NgParticlesService, NgxParticlesModule} from '@tsparticles/angular';
+import {NgxParticlesModule} from '@tsparticles/angular';
 import {confetti} from '@tsparticles/confetti';
 
 
@@ -20,6 +18,9 @@ export class QuizComponent implements OnInit, OnDestroy {
   confettiSubscription: Subscription | undefined;
   topTeams: { name: string; score: number }[] = [];
   topTeamsSubscription: Subscription | undefined;
+  questions: { id: number; clues: string[]; solution: string }[] = [];
+  currentQuestion: { id: number; clues: string[]; solution: string } | null = null;
+  showCluesAndSolution: boolean = false;
 
   constructor(private socketService: SocketioService) {}
 
@@ -38,6 +39,27 @@ export class QuizComponent implements OnInit, OnDestroy {
       this.topTeams = teams
         .sort((a, b) => b.score - a.score)
         .slice(0, 5);
+    });
+    // Subscribe to the 'updateQuestions' event to update the current question
+    this.socketService.onMessage('updateQuestions').subscribe((data: any) => {
+      this.currentQuestion = { id: data.id, clues: [], solution: "" }; // Reset clues and solution
+      this.showCluesAndSolution = false; // Reset view
+    });
+
+    // Subscribe to the 'showSolution' event to reveal the solution
+    this.socketService.onMessage('showSolution').subscribe((data:any) => {
+      if (this.currentQuestion) {
+        this.currentQuestion.solution = data;
+        this.showCluesAndSolution = true; // Reveal the solution
+      }
+    });
+
+    // Subscribe to the 'showClue' event to reveal a specific clue
+    this.socketService.onMessage('showClue').subscribe((data: any) => {
+      if (this.currentQuestion && data.clueNumber >= 1 && data.clueNumber <= 4) {
+        this.currentQuestion.clues[data.clueNumber - 1] = data.clue; // Update the specific clue
+        this.showCluesAndSolution = true; // Ensure clues are visible
+      }
     });
   }
 
