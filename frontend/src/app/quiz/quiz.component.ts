@@ -21,6 +21,7 @@ export class QuizComponent implements OnInit, OnDestroy {
   questions: { id: number; clues: string[]; solution: string }[] = [];
   currentQuestion: { id: number; clues: string[]; solution: string } | null = null;
   showCluesAndSolution: boolean = false;
+  showSolution: boolean = false; // New flag for solution visibility
 
   constructor(private socketService: SocketioService) {}
 
@@ -43,14 +44,15 @@ export class QuizComponent implements OnInit, OnDestroy {
     // Subscribe to the 'updateQuestions' event to update the current question
     this.socketService.onMessage('updateQuestions').subscribe((data: any) => {
       this.currentQuestion = { id: data.id, clues: [], solution: "" }; // Reset clues and solution
-      this.showCluesAndSolution = false; // Reset view
+      this.showCluesAndSolution = false; // Reset clues visibility
+      this.showSolution = false; // Reset solution visibility
     });
 
     // Subscribe to the 'showSolution' event to reveal the solution
     this.socketService.onMessage('showSolution').subscribe((data:any) => {
       if (this.currentQuestion) {
         this.currentQuestion.solution = data;
-        this.showCluesAndSolution = true; // Reveal the solution
+        this.showSolution = true; // Reveal the solution
       }
     });
 

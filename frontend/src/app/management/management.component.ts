@@ -83,6 +83,6 @@ export class ManagementComponent implements OnInit {
 
   showClue(clueNumber: number) {
     console.log(`Show Clue ${clueNumber} button clicked`);
-    this.socketService.sendMessage('showClue', { clueNumber }); // Send an object with clueNumber
+    this.socketService.sendMessage('showClue', clueNumber ); // Send an object with clueNumber
   }
 }

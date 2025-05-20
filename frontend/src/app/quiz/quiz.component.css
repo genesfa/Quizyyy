@@ -11,6 +11,10 @@ body {
   font-family: 'Libre Baskerville', serif;
 }
 
+#tsparticles {
+  z-index: 0;
+}
+
 .app-container {
   position: relative;
   z-index: 2; /* Ensure your content is above the particles */
@@ -126,32 +130,12 @@ body {
   background-color: #f9f9f9;
 }
 
-.clues {
-  display: flex;
-  gap: 10px;
-  margin: 10px 0;
-}
 
-.clue-card {
-  width: 300px; /* Fixed width for clue boxes */
-  height: 50px; /* Set height to one line */
-  line-height: 50px; /* Vertically center text */
-  flex: none; /* Prevent flex-grow */
-  padding: 0; /* Remove padding to fit text within height */
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #fff;
-  text-align: center;
-  margin-top: 4px;
-  font-size: 1rem; /* Adjust font size for better fit */
-  overflow: hidden; /* Hide overflow text */
-  text-overflow: ellipsis; /* Add ellipsis for overflow text */
-  white-space: nowrap; /* Prevent text wrapping */
-}
+
 
 .solution-card {
-  width: 300px; /* Further reduced width */
-  height: 80px; /* Further reduced height */
+  width: 600px; /* Further reduced width */
+  height: 130px; /* Further reduced height */
   margin-top: 10px;
   padding: 10px; /* Adjusted padding */
   border: 2px solid #28a745; /* Green border */
@@ -159,9 +143,9 @@ body {
   background-color: #e6ffe6; /* Light green background */
   text-align: center;
   color: #28a745; /* Green text */
-  font-size: 1rem; /* Smaller font size */
   font-weight: bold;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+  font-size: 3.5rem;
 }
 
 .active-question {
@@ -175,25 +159,21 @@ body {
 
 .question-id-card,
 .clue-card{
-  width: 80%;
-  max-width: 400px;
+  max-width: 600px;
   padding: 15px;
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 8px;
   background-color: rgba(255, 255, 255, 0.1);
-  color: #f5f5f5;
+  color: lightgrey;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-size: 2.5rem;
+  margin-top: 10px;
 }
 
 .question-id-card h3 {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 6.5rem;
 }
 
-.clues-horizontal {
-  display: flex;
-  gap: 10px;
-  margin: 10px 0;
-  justify-content: center;
-}
+
