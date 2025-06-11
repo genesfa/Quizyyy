@@ -24,6 +24,7 @@ export class InputComponent {
   isTeamCheckComplete: boolean = false; // Add a flag to track if the team check is complete
   answer: string = ''; // Add a property to hold the answer
   isSubmittingAnswer: boolean = false; // Add a flag to track answer submission state
+  errorMessage: string = ''; // Add a property to hold error messages
 
   constructor(private teamService: TeamService, private readonly socketService: SocketioService) {
     this.socketService.onMessage('teamExists').subscribe((team: Team) => {
@@ -73,15 +74,22 @@ export class InputComponent {
     if (!teamId || !answerText) {
         console.error('Missing required data for answer submission:', { teamId, answerText });
         this.isSubmittingAnswer = false; // Reset the flag
+        this.errorMessage = "You should type something"
         return;
     }
 
     this.socketService.sendMessage('submitAnswer', {
         teamId: teamId,
         answerText: answerText
-    }, () => {
-        console.log('Answer submitted successfully'); // Log for debugging
-        this.answer = ''; // Clear the answer field after submission
+    }, (response: string) => {
+        if (response.startsWith("Error:")) {
+            this.errorMessage = response.replace("Error:", ""); // Display the error message
+            console.error(response); // Log the error for debugging
+        } else {
+            console.log('Answer submitted successfully'); // Log for debugging
+            this.answer = ''; // Clear the answer field after submission
+            this.errorMessage = ''; // Clear any previous error messages
+        }
         this.isSubmittingAnswer = false; // Reset the flag after submission
     });
   }

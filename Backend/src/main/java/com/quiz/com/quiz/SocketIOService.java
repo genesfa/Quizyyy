@@ -192,25 +192,28 @@ public class SocketIOService {
             System.out.println("Received answer submission: " + answerData.getAnswerText());
             Team team = teamRepository.findById(answerData.getTeamId()).orElse(null);
             Question currentQuestion = questions.get(currentQuestionIndex.get()); // Fetch the current question directly
-            int clueNumber = currentClueNumber;
 
             if (team != null && currentQuestion != null) {
                 // Check if an answer already exists for the current team and question
                 Answer existingAnswer = answerRepository.findByTeamAndQuestion(team, currentQuestion);
-                if (existingAnswer != null) {
-                    existingAnswer.setClueNumber(clueNumber);
-                    existingAnswer.setAnswerText(answerData.getAnswerText());
-                    answerRepository.save(existingAnswer); // Overwrite the existing answer
-                    System.out.println("Answer updated successfully for team: " + team.getName());
-                } else {
-                    Answer newAnswer = new Answer();
-                    newAnswer.setTeam(team);
-                    newAnswer.setQuestion(currentQuestion);
-                    newAnswer.setClueNumber(clueNumber);
-                    newAnswer.setAnswerText(answerData.getAnswerText());
-                    answerRepository.save(newAnswer); // Save the new answer
-                    System.out.println("Answer saved successfully for team: " + team.getName());
+                if (currentClueNumber == 0) {
+                    System.out.println("Bruddi warte doch" + team.getName());
+                    ackSender.sendAckData("Error: Chill and wait for Clues or you have no chance to win trust me");
+                    return; // Do not save a new answer
                 }
+                if (existingAnswer != null) {
+                    System.out.println("Team has already submitted an answer for this question: " + team.getName());
+                    ackSender.sendAckData("Error: You can only answer a question once. I told you.");
+                    return; // Do not save a new answer
+                }
+
+                Answer newAnswer = new Answer();
+                newAnswer.setTeam(team);
+                newAnswer.setQuestion(currentQuestion);
+                newAnswer.setClueNumber(currentClueNumber);
+                newAnswer.setAnswerText(answerData.getAnswerText());
+                answerRepository.save(newAnswer); // Save the new answer
+                System.out.println("Answer saved successfully for team: " + team.getName());
 
                 ackSender.sendAckData("Answer processed successfully");
 
@@ -224,7 +227,7 @@ public class SocketIOService {
                 server.getBroadcastOperations().sendEvent("updateAnswersForCurrentQuestion", teamAnswers);
             } else {
                 System.out.println("Invalid team or question ID");
-                ackSender.sendAckData("Invalid team or question ID");
+                ackSender.sendAckData("Error: Invalid team or question ID.");
             }
         });
 
