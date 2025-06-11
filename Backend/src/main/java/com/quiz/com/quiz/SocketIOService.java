@@ -5,11 +5,13 @@ import com.corundumstudio.socketio.HandshakeData;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.quiz.com.quiz.dto.ClueData;
+import com.quiz.com.quiz.entitys.AnswerVO;
 import com.quiz.com.quiz.entitys.Question;
 import com.quiz.com.quiz.entitys.QuestionType;
 import com.quiz.com.quiz.entitys.Team;
 import com.quiz.com.quiz.repositorys.QuestionRepository;
 import com.quiz.com.quiz.repositorys.TeamRepository;
+import com.quiz.com.quiz.repositorys.AnswerRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.AllArgsConstructor;
@@ -22,6 +24,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+import java.util.Collections;
+import java.util.Map;
+
+import com.quiz.com.quiz.entitys.Answer;
 
 @Service
 @RequiredArgsConstructor
@@ -31,12 +38,15 @@ public class SocketIOService {
 
     private final SocketIOServer server;
 
-    private final QuestionRepository questionRepository;
-
     private final TeamRepository teamRepository;
+
+    private final AnswerRepository answerRepository;
+
+    private final QuestionRepository questionRepository;
 
     private final AtomicInteger currentQuestionIndex = new AtomicInteger(0); // Track the current question index
     private List<Question> questions; // Cache the list of questions
+    private Integer currentClueNumber = 0;
 
     @PostConstruct
     public void startServer() {
@@ -157,15 +167,19 @@ public class SocketIOService {
             switch (clueNumber) {
                 case 1:
                     clue = currentQuestion.getClue1();
+                    currentClueNumber = 1;
                     break;
                 case 2:
                     clue = currentQuestion.getClue2();
+                    currentClueNumber = 2;
                     break;
                 case 3:
                     clue = currentQuestion.getClue3();
+                    currentClueNumber = 3;
                     break;
                 case 4:
                     clue = currentQuestion.getClue4();
+                    currentClueNumber = 4;
                     break;
             }
 
@@ -173,11 +187,78 @@ public class SocketIOService {
                 server.getBroadcastOperations().sendEvent("showClue", new ClueData(clueNumber, clue));
             }
         });
+
+        server.addEventListener("submitAnswer", AnswerVO.class, (client, answerData, ackSender) -> {
+            System.out.println("Received answer submission: " + answerData.getAnswerText());
+            Team team = teamRepository.findById(answerData.getTeamId()).orElse(null);
+            Question currentQuestion = questions.get(currentQuestionIndex.get()); // Fetch the current question directly
+            int clueNumber = currentClueNumber;
+
+            if (team != null && currentQuestion != null) {
+                // Check if an answer already exists for the current team and question
+                Answer existingAnswer = answerRepository.findByTeamAndQuestion(team, currentQuestion);
+                if (existingAnswer != null) {
+                    existingAnswer.setClueNumber(clueNumber);
+                    existingAnswer.setAnswerText(answerData.getAnswerText());
+                    answerRepository.save(existingAnswer); // Overwrite the existing answer
+                    System.out.println("Answer updated successfully for team: " + team.getName());
+                } else {
+                    Answer newAnswer = new Answer();
+                    newAnswer.setTeam(team);
+                    newAnswer.setQuestion(currentQuestion);
+                    newAnswer.setClueNumber(clueNumber);
+                    newAnswer.setAnswerText(answerData.getAnswerText());
+                    answerRepository.save(newAnswer); // Save the new answer
+                    System.out.println("Answer saved successfully for team: " + team.getName());
+                }
+
+                ackSender.sendAckData("Answer processed successfully");
+
+                // Broadcast updated answers for the current question
+                List<Answer> answers = answerRepository.findByQuestion(currentQuestion);
+                Map<Long, Map<String, Object>> teamAnswers = answers.stream()
+                    .collect(Collectors.toMap(
+                        a -> a.getTeam().getId(),
+                        a -> Map.of("answerText", a.getAnswerText(), "clueNumber", a.getClueNumber())
+                    ));
+                server.getBroadcastOperations().sendEvent("updateAnswersForCurrentQuestion", teamAnswers);
+            } else {
+                System.out.println("Invalid team or question ID");
+                ackSender.sendAckData("Invalid team or question ID");
+            }
+        });
+
+        server.addEventListener("getCurrentQuestionId", Void.class, (client, data, ackSender) -> {
+            Question currentQuestion = questions.get(currentQuestionIndex.get());
+            if (currentQuestion != null) {
+                ackSender.sendAckData(currentQuestion.getId()); // Send the current question ID
+            } else {
+                ackSender.sendAckData((Object) null); // No question available
+            }
+        });
+
+        server.addEventListener("getAnswersForCurrentQuestion", Void.class, (client, data, ackSender) -> {
+            Question currentQuestion = questions.get(currentQuestionIndex.get());
+            if (currentQuestion != null) {
+                List<Answer> answers = answerRepository.findByQuestion(currentQuestion);
+                Map<Long, Map<String, Object>> teamAnswers = answers.stream()
+                    .collect(Collectors.toMap(
+                        a -> a.getTeam().getId(),
+                        a -> Map.of("answerText", a.getAnswerText(), "clueNumber", a.getClueNumber())
+                    ));
+                ackSender.sendAckData(teamAnswers); // Send the answers mapped by team ID with clueNumber
+            } else {
+                ackSender.sendAckData(Collections.emptyMap()); // No question available
+            }
+        });
     }
+
 
     private void broadcastQuestionUpdate() {
         Question currentQuestion = questions.get(currentQuestionIndex.get());
+        currentClueNumber = 0;
         server.getBroadcastOperations().sendEvent("updateQuestions", currentQuestion);
+        server.getBroadcastOperations().sendEvent("currentQuestionId", currentQuestion.getId()); // Emit the current question ID
     }
 
     private String getCurrentQuestion() {

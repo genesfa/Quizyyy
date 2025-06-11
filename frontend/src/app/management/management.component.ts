@@ -19,6 +19,7 @@ import {NgForOf} from '@angular/common';
 export class ManagementComponent implements OnInit {
   teams: Team[] = []; // List of teams
   currentQuestionTitle: string = ''; // Store the current question title
+  answers: { [teamId: string]: { answerText: string, clueNumber: number } } = {}; // Store answers with clueNumber for the current question
 
   constructor(private socketService: SocketioService) {}
 
@@ -41,6 +42,20 @@ export class ManagementComponent implements OnInit {
     this.socketService.onMessage('updateQuestions').subscribe((data: any) => {
       console.log(data)
       this.currentQuestionTitle = data.name; // Update the current question title
+      this.fetchAnswersForCurrentQuestion(); // Fetch answers for the current question
+    });
+
+    // Listen for updates to answers for the current question
+    this.socketService.onMessage('updateAnswersForCurrentQuestion').subscribe((updatedAnswers: { [teamId: string]: { answerText: string, clueNumber: number } }) => {
+      this.answers = updatedAnswers; // Update the answers map
+      console.log("Updated answers for current question:", this.answers);
+    });
+  }
+
+  fetchAnswersForCurrentQuestion() {
+    this.socketService.sendMessage('getAnswersForCurrentQuestion', null, (response: { [teamId: string]: { answerText: string, clueNumber: number } }) => {
+      this.answers = response; // Update the answers map
+      console.log("Answers for current question:", this.answers);
     });
   }
 
@@ -59,11 +74,6 @@ export class ManagementComponent implements OnInit {
   lastQuestion() {
     console.log('Last Question button clicked');
     this.socketService.sendMessage('lastQuestion',{});
-  }
-
-  nextClue() {
-    console.log('Next Clue button clicked');
-    this.socketService.sendMessage('nextClue',{});
   }
 
   nextQuestion() {

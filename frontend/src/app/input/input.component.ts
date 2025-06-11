@@ -66,10 +66,23 @@ export class InputComponent {
   submitAnswer() {
     if (this.isSubmittingAnswer) return; // Prevent multiple submissions
     this.isSubmittingAnswer = true; // Set the flag to true when submitting
-    this.socketService.sendMessage('submitAnswer', { teamId: this.team?.id, answer: this.answer }, () => {
-      console.log('Answer submitted successfully'); // Log for debugging
-      this.answer = ''; // Clear the answer field after submission
-      this.isSubmittingAnswer = false; // Reset the flag after submission
+
+    const teamId = this.team?.id;
+    const answerText = this.answer;
+
+    if (!teamId || !answerText) {
+        console.error('Missing required data for answer submission:', { teamId, answerText });
+        this.isSubmittingAnswer = false; // Reset the flag
+        return;
+    }
+
+    this.socketService.sendMessage('submitAnswer', {
+        teamId: teamId,
+        answerText: answerText
+    }, () => {
+        console.log('Answer submitted successfully'); // Log for debugging
+        this.answer = ''; // Clear the answer field after submission
+        this.isSubmittingAnswer = false; // Reset the flag after submission
     });
   }
 }

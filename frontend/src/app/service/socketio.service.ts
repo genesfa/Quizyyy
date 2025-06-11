@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class SocketioService {
   private socket: Socket;
+  private currentQuestionId: string | null = null; // Store the current question ID
 
   constructor() {
     let sessionId = localStorage.getItem('socketio_session_id');
@@ -17,6 +18,10 @@ export class SocketioService {
 
     this.socket = io('http://localhost:9092', {
       query: { sessionId } // Send sessionId as a query parameter
+    });
+
+    this.onMessage('currentQuestionId').subscribe((questionId: string) => {
+      this.currentQuestionId = questionId; // Update the current question ID when received
     });
   }
 
@@ -51,6 +56,16 @@ export class SocketioService {
       this.socket.on(event, (data: any) => {
         observer.next(data);
       });
+    });
+  }
+
+  getCurrentQuestionId(): string | null {
+    return this.currentQuestionId; // Return the stored question ID
+  }
+
+  fetchCurrentQuestionId(): void {
+    this.sendMessage('getCurrentQuestionId', null, (questionId: string) => {
+        this.currentQuestionId = questionId; // Update the current question ID
     });
   }
 }
