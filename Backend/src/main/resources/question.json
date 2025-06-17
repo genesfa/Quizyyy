@@ -1,0 +1,32 @@
+[
+    {
+      "id": 1,
+      "questionType": "topic",
+      "name": "Pokemon Namen in anderen Sprachen",
+      "clue1": "Dracaufeu",
+      "clue2": "Carapuce",
+      "clue3": "Toucannon",
+      "clue4": "Jynx ",
+      "solution": "Pokemon in anderen Sprachen (Glurak auf Französisch, Schiggy auf Französisch, Tucanon auf Englisch, Rosana auf Englisch"
+    },
+    {
+      "id": 2,
+      "questionType": "topic",
+      "name": "Blonde Harre",
+      "clue1": "Neil Armstrong",
+      "clue2": "Tinker Bell",
+      "clue3": "Laura Regler",
+      "clue4": "Marilyn Monroe",
+      "solution": "Figuren, die Blonde harre, haben/hatten"
+    },
+  {
+    "id": 3,
+    "questionType": "topic",
+    "name": "Gebrüder Grimm (Max)",
+    "clue1": "Hängende Hühner",
+    "clue2": "Brücke Lücke",
+    "clue3": "Explodierende Pfeife",
+    "clue4": "Mühle Mahle",
+    "solution": "Streiche von Max und Moritz "
+  }
+]

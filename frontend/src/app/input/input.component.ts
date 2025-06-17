@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { TeamService } from '../service/team.service';
 import {FormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
 import { SocketioService } from '../service/socketio.service';
@@ -26,7 +25,8 @@ export class InputComponent {
   isSubmittingAnswer: boolean = false; // Add a flag to track answer submission state
   errorMessage: string = ''; // Add a property to hold error messages
 
-  constructor(private teamService: TeamService, private readonly socketService: SocketioService) {
+  constructor( private readonly socketService: SocketioService) {
+    this.socketService.connect(); // Ensure the socket service connects to the correct backend
     this.socketService.onMessage('teamExists').subscribe((team: Team) => {
       console.log(team); // Log the message for debugging
       this.team = team;

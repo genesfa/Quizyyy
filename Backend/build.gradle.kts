@@ -1,3 +1,5 @@
+import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
+
 plugins {
 	id("org.springframework.boot") version("3.2.5")
 	id("io.spring.dependency-management") version("1.1.6")
@@ -33,4 +35,17 @@ dependencies {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+//export DOCKER_USERNAME=your-dockerhub-username
+//export DOCKER_PASSWORD=your-dockerhub-password
+tasks.named<BootBuildImage>("bootBuildImage") {
+	publish.set(true)
+	imageName.set("your-dockerhub-username/quizzzyyy:latest")
+	docker {
+		publishRegistry {
+			username.set(System.getenv("DOCKER_USERNAME"))
+			password.set(System.getenv("DOCKER_PASSWORD"))
+			url.set("https://index.docker.io/v1/")
+		}
+	}
 }
