@@ -1,6 +1,6 @@
 <div class="app-container">
   <div class="logo">
-    <h1>Verknüpft & Zugenäht</h1>
+    <h1>Ein extrem gutes Quiz</h1>
     <p>Von Laura & Fabi</p>
   </div>
   <div *ngIf="currentQuestion" class="active-question">
@@ -16,7 +16,7 @@
       {{ currentQuestion.solution }}
     </div>
   </div>
-  <div *ngIf="topTeams.length > 0" class="top-teams-panel">
+  <div *ngIf="topTeams.length > 0 && false" class="top-teams-panel">
     <h3>Top 5 Teams</h3>
     <ul>
       <li *ngFor="let team of topTeams">

@@ -1,32 +1,52 @@
 [
-    {
-      "id": 1,
-      "questionType": "topic",
-      "name": "Pokemon Namen in anderen Sprachen",
-      "clue1": "Dracaufeu",
-      "clue2": "Carapuce",
-      "clue3": "Toucannon",
-      "clue4": "Jynx ",
-      "solution": "Pokemon in anderen Sprachen (Glurak auf Französisch, Schiggy auf Französisch, Tucanon auf Englisch, Rosana auf Englisch"
-    },
+  {
+    "id": 1,
+    "questionType": "topic",
+    "name": "Preis nicht an",
+    "clue1": "Grigori Perelman, 2006",
+    "clue2": "Jean-Paul Sartre, 1964",
+    "clue3": "Marlon Brando, 1973",
+    "clue4": "Marcel Reich-Ranicki, 2008",
+    "solution": "Ich nehme diesen Preis nicht an"
+  },
     {
       "id": 2,
       "questionType": "topic",
-      "name": "Blonde Harre",
-      "clue1": "Neil Armstrong",
-      "clue2": "Tinker Bell",
-      "clue3": "Laura Regler",
-      "clue4": "Marilyn Monroe",
-      "solution": "Figuren, die Blonde harre, haben/hatten"
+      "name": "Passwortstärke",
+      "clue1": "Schlangenzunge stärker als Aragorn",
+      "clue2": "Boeing747 sicherer als ICE",
+      "clue3": "A$AP_Rocky besser asl Eminem",
+      "clue4": "2kgM&Ms schwerer als Elefant",
+      "solution": "Passwortstärke (Begriff 1 > Begriff 2)"
+    },
+    {
+      "id": 3,
+      "questionType": "topic",
+      "name": "Obere Tastatur reige",
+      "clue1": "Urzeit",
+      "clue2": "Tür",
+      "clue3": "Power",
+      "clue4": "Route",
+      "solution": "Wörter aus der obersten Buchstabenreihe der Tastatur (Deutsch)"
     },
   {
-    "id": 3,
+    "id": 4,
     "questionType": "topic",
-    "name": "Gebrüder Grimm (Max)",
-    "clue1": "Hängende Hühner",
-    "clue2": "Brücke Lücke",
-    "clue3": "Explodierende Pfeife",
-    "clue4": "Mühle Mahle",
-    "solution": "Streiche von Max und Moritz "
+    "name": "Rumpelstilzchen",
+    "clue1": "Kaspar",
+    "clue2": "Schnürbein",
+    "clue3": "Rippenbiest",
+    "clue4": "Hammelswade",
+    "solution": "Falsche Namen vom Rumpelstilzchen"
+  },
+  {
+    "id": 5,
+    "questionType": "topic",
+    "name": "Wilde Kerle",
+    "clue1": "Fabi",
+    "clue2": "Maxi",
+    "clue3": "Leon",
+    "clue4": "Raban",
+    "solution": "Wilde Kerle (Buch/Film reihe)"
   }
 ]

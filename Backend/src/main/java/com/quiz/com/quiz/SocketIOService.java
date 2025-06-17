@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import com.quiz.com.quiz.entitys.Answer;
+import com.quiz.com.quiz.config.DataLoader;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +38,7 @@ import com.quiz.com.quiz.entitys.Answer;
 public class SocketIOService {
 
     private final SocketIOServer server;
+    private final DataLoader dataLoader; // Inject DataLoader
 
     private final TeamRepository teamRepository;
 
@@ -50,11 +52,16 @@ public class SocketIOService {
 
     @PostConstruct
     public void startServer() {
+        dataLoader.initializeData(); // Ensure questions are loaded before starting the server
+
         server.start();
         System.out.println("SocketIO server started on port " + server.getConfiguration().getPort());
 
         // Load all questions from the database
         questions = questionRepository.findAll();
+        System.out.println("WTTTTFFF");
+        System.out.println("questions size: " + questions.size());
+        System.out.println(questions);
 
         server.addConnectListener(client -> {
             HandshakeData handshakeData = client.getHandshakeData();
@@ -141,6 +148,8 @@ public class SocketIOService {
         });
 
         server.addEventListener("nextQuestion", Void.class, (client, data, ackRequest) -> {
+            System.out.println("nextQuestion");
+            System.out.println(currentQuestionIndex.get());
             if (currentQuestionIndex.incrementAndGet() >= questions.size()) {
                 currentQuestionIndex.set(questions.size() - 1); // Prevent going out of bounds
             }
@@ -148,6 +157,8 @@ public class SocketIOService {
         });
 
         server.addEventListener("lastQuestion", Void.class, (client, data, ackRequest) -> {
+            System.out.println("lastQuestion");
+            System.out.println(currentQuestionIndex.get());
             if (currentQuestionIndex.decrementAndGet() < 0) {
                 currentQuestionIndex.set(0); // Prevent going below 0
             }
@@ -258,6 +269,8 @@ public class SocketIOService {
 
 
     private void broadcastQuestionUpdate() {
+        System.out.println("Broadcasting question update");
+        System.out.println("Current question: " + questions.get(currentQuestionIndex.get()));
         Question currentQuestion = questions.get(currentQuestionIndex.get());
         currentClueNumber = 0;
         server.getBroadcastOperations().sendEvent("updateQuestions", currentQuestion);
