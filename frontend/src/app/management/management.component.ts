@@ -19,7 +19,6 @@ import {Subscription} from 'rxjs';
   styleUrl: './management.component.css'
 })
 export class ManagementComponent implements OnInit {
-  topTeams: { name: string; score: number }[] = [];
   teams: Team[] = []; // List of teams
   currentQuestionTitle: string = ''; // Store the current question title
   answers: { [teamId: string]: { answerText: string, clueNumber: number } } = {}; // Store answers with clueNumber for the current question
@@ -32,8 +31,6 @@ export class ManagementComponent implements OnInit {
     // Listen for updates to the team list
     this.socketService.onMessage('updateTeams').subscribe((teams: Team[]) => {
       this.teams = teams;
-      this.topTeams = teams
-        .sort((a, b) => b.score - a.score);
     });
 
     // Request the initial list of teams and handle the response
