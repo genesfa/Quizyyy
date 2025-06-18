@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { Observable } from 'rxjs';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,7 +17,11 @@ export class SocketioService {
       localStorage.setItem('socketio_session_id', sessionId);
     }
 
-    this.socket = io('http://localhost:8080', { // Connect to the root namespace
+    const backendUrl =  window.location.origin; // Use environment or current host
+    console.log("Socker URL")
+    console.log(backendUrl)
+    console.log(window.location.origin)
+    this.socket = io(`${backendUrl}`, { // Connect to the correct backend URL
       query: { sessionId }, // Send sessionId as a query parameter
       transports: ['websocket', 'polling'], // Ensure both WebSocket and polling are supported
       reconnection: true, // Enable automatic reconnection
@@ -69,7 +74,7 @@ export class SocketioService {
 
   fetchCurrentQuestionId(): void {
     this.sendMessage('getCurrentQuestionId', null, (questionId: string) => {
-        this.currentQuestionId = questionId; // Update the current question ID
+      this.currentQuestionId = questionId; // Update the current question ID
     });
   }
 }

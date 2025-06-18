@@ -3,7 +3,8 @@ import { SocketioService } from "../service/socketio.service";
 import { Team } from '../models/team.model';
 import {MatList, MatListItem} from '@angular/material/list';
 import {MatButton} from '@angular/material/button';
-import {NgForOf} from '@angular/common';
+import {NgForOf, NgIf} from '@angular/common';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-management',
@@ -12,11 +13,14 @@ import {NgForOf} from '@angular/common';
     MatListItem,
     MatList,
     MatButton,
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   styleUrl: './management.component.css'
 })
 export class ManagementComponent implements OnInit {
+  topTeams: { name: string; score: number }[] = [];
+  topTeamsSubscription: Subscription | undefined;
   teams: Team[] = []; // List of teams
   currentQuestionTitle: string = ''; // Store the current question title
   answers: { [teamId: string]: { answerText: string, clueNumber: number } } = {}; // Store answers with clueNumber for the current question
@@ -49,6 +53,13 @@ export class ManagementComponent implements OnInit {
     this.socketService.onMessage('updateAnswersForCurrentQuestion').subscribe((updatedAnswers: { [teamId: string]: { answerText: string, clueNumber: number } }) => {
       this.answers = updatedAnswers; // Update the answers map
       console.log("Updated answers for current question:", this.answers);
+    });
+
+
+    // Subscribe to the 'updateTeams' event to update top teams
+    this.topTeamsSubscription = this.socketService.onMessage('updateTeams').subscribe((teams: any[]) => {
+      this.topTeams = teams
+        .sort((a, b) => b.score - a.score);
     });
   }
 

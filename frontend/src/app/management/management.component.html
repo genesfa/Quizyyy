@@ -45,3 +45,12 @@
     <button mat-raised-button (click)="triggerConfetti()">Confetti</button>
   </div>
 </div>
+
+<div *ngIf="topTeams.length > 0" class="top-teams-panel">
+  <h3>Top 5 Teams</h3>
+  <ul>
+    <li *ngFor="let team of topTeams">
+      {{ team.name }}: {{ team.score }}
+    </li>
+  </ul>
+</div>
