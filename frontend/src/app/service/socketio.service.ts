@@ -16,8 +16,12 @@ export class SocketioService {
       localStorage.setItem('socketio_session_id', sessionId);
     }
 
-    this.socket = io('http://localhost:9092', {
-      query: { sessionId } // Send sessionId as a query parameter
+    this.socket = io('http://localhost:8080', { // Connect to the root namespace
+      query: { sessionId }, // Send sessionId as a query parameter
+      transports: ['websocket', 'polling'], // Ensure both WebSocket and polling are supported
+      reconnection: true, // Enable automatic reconnection
+      reconnectionAttempts: 5, // Limit the number of reconnection attempts
+      reconnectionDelay: 1000 // Delay between reconnection attempts
     });
 
     this.onMessage('currentQuestionId').subscribe((questionId: string) => {

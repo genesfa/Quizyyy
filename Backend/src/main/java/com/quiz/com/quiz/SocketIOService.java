@@ -1,8 +1,9 @@
 package com.quiz.com.quiz;
 
-import com.corundumstudio.socketio.SocketIOServer;
+
 import com.corundumstudio.socketio.HandshakeData;
 import com.corundumstudio.socketio.SocketIOClient;
+import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.quiz.com.quiz.dto.ClueData;
 import com.quiz.com.quiz.entitys.AnswerVO;
@@ -21,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -30,12 +32,16 @@ import java.util.Map;
 
 import com.quiz.com.quiz.entitys.Answer;
 import com.quiz.com.quiz.config.DataLoader;
+import com.corundumstudio.socketio.Configuration;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 @Transactional
 public class SocketIOService {
+
+    @Value("${socketio.port:9090}") // Use the socketio.port property
+    private int socketIoPort;
 
     private final SocketIOServer server;
     private final DataLoader dataLoader; // Inject DataLoader
@@ -55,7 +61,10 @@ public class SocketIOService {
         dataLoader.initializeData(); // Ensure questions are loaded before starting the server
 
         server.start();
-        System.out.println("SocketIO server started on port " + server.getConfiguration().getPort());
+        log.info("Socket.IO server started on port {}", socketIoPort);
+
+        // Ensure the root namespace is used
+        server.addNamespace("/"); // Register the root namespace explicitly if needed
 
         // Load all questions from the database
         questions = questionRepository.findAll();
@@ -84,7 +93,7 @@ public class SocketIOService {
                 client.sendEvent("teamNotFound"); // Emit teamNotFound event when no team is found
             }
 
-            // Optionally, associate the session ID with the client or perform other logic
+            // Associate the session ID with the client
             client.set("sessionId", sessionId);
 
             client.sendEvent("message", "Welcome to the SocketIO server!");
@@ -267,6 +276,11 @@ public class SocketIOService {
         });
     }
 
+    @PreDestroy
+    public void stopServer() {
+        server.stop();
+        log.info("Socket.IO server stopped");
+    }
 
     private void broadcastQuestionUpdate() {
         System.out.println("Broadcasting question update");
