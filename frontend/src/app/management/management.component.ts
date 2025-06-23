@@ -5,6 +5,7 @@ import {MatList, MatListItem} from '@angular/material/list';
 import {MatButton} from '@angular/material/button';
 import {NgForOf, NgIf} from '@angular/common';
 import {Subscription} from 'rxjs';
+import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-management',
@@ -13,8 +14,7 @@ import {Subscription} from 'rxjs';
     MatListItem,
     MatList,
     MatButton,
-    NgForOf,
-    NgIf
+    NgForOf
   ],
   styleUrl: './management.component.css'
 })
@@ -96,5 +96,40 @@ export class ManagementComponent implements OnInit {
   showClue(clueNumber: number) {
     console.log(`Show Clue ${clueNumber} button clicked`);
     this.socketService.sendMessage('showClue', clueNumber ); // Send an object with clueNumber
+  }
+
+  toggleQRCode() {
+    console.log('Toggle QR-Code button clicked');
+    this.socketService.sendMessage('toggleQRCode', {});
+  }
+
+  generatePDF() {
+    this.socketService.sendMessage('getAllAnswers', null, (response: { [teamId: string]: { answers: { question: string, answerText: string, clueNumber: number }[] } }) => {
+      const doc = new jsPDF();
+      doc.setFontSize(16);
+      doc.text('Teams and All Answers Report', 10, 10);
+
+      let y = 20;
+      this.teams.forEach((team) => {
+        doc.setFontSize(12);
+        doc.text(`Team: ${team.name}`, 10, y);
+        doc.text(`Score: ${team.score}`, 10, y + 5);
+
+        const teamAnswers = response[team.id]?.answers || [];
+        if (teamAnswers.length > 0) {
+          teamAnswers.forEach((answer, index) => {
+            doc.text(`Q${index + 1}: ${answer.question}`, 10, y + 10);
+            doc.text(`Answer: ${answer.answerText} (Clue: ${answer.clueNumber})`, 10, y + 15);
+            y += 10;
+          });
+        } else {
+          doc.text('No answers submitted yet.', 10, y + 10);
+          y += 10;
+        }
+        y += 10;
+      });
+
+      doc.save('teams_all_answers_report.pdf');
+    });
   }
 }

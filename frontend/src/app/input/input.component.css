@@ -1,6 +1,7 @@
+
+
 .app-container {
     position: relative;
     z-index: 1; /* Ensure your content is above the particles */
 color: #ffffff;
   }
-  

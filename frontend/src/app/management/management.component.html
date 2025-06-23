@@ -32,6 +32,7 @@
     <button mat-raised-button color="warn" (click)="nextQuestion()">Next Question</button>
     <button mat-raised-button color="basic" (click)="closeQuestion()">Close Question</button>
     <button mat-raised-button color="accent" (click)="showSolution()">Show Solution</button>
+    <button mat-raised-button color="accent" (click)="toggleQRCode()">Toggle QR-Code</button>
   </div>
 
   <div class="clue-buttons" style="margin-top: 20px; display: flex; gap: 10px;">
@@ -43,5 +44,9 @@
 
   <div class="app-container">
     <button mat-raised-button (click)="triggerConfetti()">Confetti</button>
+  </div>
+
+  <div class="pdf-button" style="margin-top: 20px;">
+    <button mat-raised-button color="primary" (click)="generatePDF()">Download PDF</button>
   </div>
 </div>

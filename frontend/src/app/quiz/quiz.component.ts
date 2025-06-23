@@ -22,6 +22,8 @@ export class QuizComponent implements OnInit, OnDestroy {
   currentQuestion: { id: number; clues: string[]; solution: string } | null = null;
   showCluesAndSolution: boolean = false;
   showSolution: boolean = false; // New flag for solution visibility
+  showQRCode: boolean = false; // Flag to control QR code visibility
+  window = window; // Expose the global window object
 
   constructor(private socketService: SocketioService) {}
 
@@ -62,6 +64,11 @@ export class QuizComponent implements OnInit, OnDestroy {
         this.currentQuestion.clues[data.clueNumber - 1] = data.clue; // Update the specific clue
         this.showCluesAndSolution = true; // Ensure clues are visible
       }
+    });
+
+    // Subscribe to the 'toggleQRCode' event to toggle QR code visibility
+    this.socketService.onMessage('toggleQRCode').subscribe(() => {
+      this.showQRCode = !this.showQRCode; // Toggle QR code visibility
     });
   }
 

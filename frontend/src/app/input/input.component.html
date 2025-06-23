@@ -14,13 +14,12 @@
     <p style="font-size: 1.2em;">Score: {{ team.score }}</p>
     <form (ngSubmit)="submitAnswer()" style="margin-top: 20px; display: flex; flex-direction: column; gap: 16px;">
       <input id="answer" [(ngModel)]="answer" name="answer" required maxlength="50"
-             placeholder="Enter your answer" 
+             placeholder="Enter your answer"
              style="padding: 8px; font-size: 1em; border: 1px solid #ccc; border-radius: 4px; width: 100%; box-sizing: border-box;" />
       <button mat-raised-button color="accent" type="submit" [disabled]="isSubmittingAnswer"
               style="padding: 10px; font-size: 1em; width: 100%; color: white;">
         Submit Answer
       </button>
     </form>
-    <p *ngIf="errorMessage" style="color: red; font-size: 1em; margin-top: 10px;">{{ errorMessage }}</p>
   </div>
 </div>

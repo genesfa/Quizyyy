@@ -25,6 +25,7 @@
     "@tsparticles/confetti": "^3.8.1",
     "@tsparticles/engine": "^3.8.1",
     "@tsparticles/slim": "^3.8.1",
+    "jspdf": "^3.0.1",
     "rxjs": "~7.8.0",
     "socket.io-client": "^4.8.1",
     "tslib": "^2.3.0",

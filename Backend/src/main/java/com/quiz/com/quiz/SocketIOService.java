@@ -274,6 +274,33 @@ public class SocketIOService {
                 ackSender.sendAckData(Collections.emptyMap()); // No question available
             }
         });
+
+        server.addEventListener("toggleQRCode", Void.class, (client, data, ackRequest) -> {
+            System.out.println("Toggle QR-Code event triggered");
+            server.getBroadcastOperations().sendEvent("toggleQRCode");
+        });
+
+        server.addEventListener("getAllAnswers", Void.class, (client, data, ackSender) -> {
+            List<Team> teams = teamRepository.findAll();
+            Map<Long, Map<String, Object>> allAnswers = teams.stream().collect(Collectors.toMap(
+                Team::getId,
+                team -> {
+                    List<Answer> answers = answerRepository.findByTeam(team);
+                    List<Map<String, Object>> answerDetails = answers.stream()
+                        .map(answer -> {
+                            Map<String, Object> answerMap = Map.of(
+                                "question", answer.getQuestion().getName(),
+                                "answerText", answer.getAnswerText(),
+                                "clueNumber", answer.getClueNumber()
+                            );
+                            return answerMap;
+                        })
+                        .collect(Collectors.toList());
+                    return Map.of("answers", answerDetails);
+                }
+            ));
+            ackSender.sendAckData(allAnswers);
+        });
     }
 
     @PreDestroy

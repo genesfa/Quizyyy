@@ -16,6 +16,9 @@
       {{ currentQuestion.solution }}
     </div>
   </div>
+  <div *ngIf="showQRCode" class="qr-code-container bottom-right">
+    <img [src]="'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' + window.origin" alt="QR Code">
+  </div>
 </div>
 
 

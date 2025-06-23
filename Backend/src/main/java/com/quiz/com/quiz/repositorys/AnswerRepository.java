@@ -8,5 +8,6 @@ import com.quiz.com.quiz.entitys.Team;
 
 public interface AnswerRepository extends JpaRepository<Answer, Long> {
     List<Answer> findByQuestion(Question question);
+    List<Answer> findByTeam(Team team);
     Answer findByTeamAndQuestion(Team team, Question question); // Find an answer by team and question
 }
