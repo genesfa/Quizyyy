@@ -63,6 +63,10 @@ export class InputComponent {
       this.teamExists = true; // Set the flag to true
       this.isSubmitting = false; // Reset the flag after the flow completes
       this.isTeamCheckComplete = true; // Mark the team check as complete after creation
+
+      if (newTeam && newTeam.id) {
+        this.socketService.joinRoom(newTeam.id.toString()); // Join the room for the team
+      }
     });
   }
 

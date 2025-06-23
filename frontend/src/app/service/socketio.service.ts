@@ -21,7 +21,7 @@ export class SocketioService {
     console.log("Socker URL")
     console.log(backendUrl)
     console.log(window.location.origin)
-    //backendUrl = "localhost:9090"
+   // backendUrl = "localhost:9090"
     this.socket = io(`${backendUrl}`, { // Connect to the correct backend URL
       query: { sessionId }, // Send sessionId as a query parameter
       transports: ['websocket', 'polling'], // Ensure both WebSocket and polling are supported
@@ -59,6 +59,11 @@ export class SocketioService {
 
   triggerConfetti(event: string): void {
     this.socket.emit(event);
+  }
+
+  joinRoom(roomName: string): void {
+    console.log(`Joining room: ${roomName}`); // Debug log
+    this.socket.emit('joinRoom', roomName); // Emit the joinRoom event
   }
 
   onMessage(event: string): Observable<any> {

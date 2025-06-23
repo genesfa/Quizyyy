@@ -28,6 +28,9 @@ export class ManagementComponent implements OnInit {
   ngOnInit() {
     this.socketService.connect();
 
+    // Join the management room
+    this.socketService.joinRoom('management'); // Join a dedicated room for management
+
     // Listen for updates to the team list
     this.socketService.onMessage('updateTeams').subscribe((teams: Team[]) => {
       this.teams = teams;

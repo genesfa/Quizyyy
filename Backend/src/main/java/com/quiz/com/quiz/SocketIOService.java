@@ -44,6 +44,7 @@ public class SocketIOService {
     private int socketIoPort;
 
     private final SocketIOServer server;
+
     private final DataLoader dataLoader; // Inject DataLoader
 
     private final TeamRepository teamRepository;
@@ -63,8 +64,10 @@ public class SocketIOService {
         server.start();
         log.info("Socket.IO server started on port {}", socketIoPort);
 
+
+
         // Ensure the root namespace is used
-        server.addNamespace("/"); // Register the root namespace explicitly if needed
+
 
         // Load all questions from the database
         questions = questionRepository.findAll();
@@ -300,6 +303,15 @@ public class SocketIOService {
                 }
             ));
             ackSender.sendAckData(allAnswers);
+        });
+
+        server.addEventListener("joinRoom", String.class, (client, roomName, ackSender) -> {
+            client.joinRoom(roomName);
+            System.out.println("Client " + client.getSessionId() + " joined room: " + roomName);
+
+            if ("management".equals(roomName)) {
+                client.sendEvent("managementWelcome", "Welcome to the management room!");
+            }
         });
     }
 
