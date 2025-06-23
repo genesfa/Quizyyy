@@ -115,14 +115,24 @@ public class SocketIOService {
 
         server.addEventListener("createTeam", String.class, (client, teamName, ackSender) -> {
             System.out.println("Received message from " + client.getSessionId() + ": " + teamName);
+
+            // Check if a team with the same name already exists
+            if (teamRepository.findAll().stream().anyMatch(team -> team.getName().equalsIgnoreCase(teamName))) {
+                System.out.println("Team name already exists: " + teamName);
+                ackSender.sendAckData("Error: Der Teamname existiert bereits. Bitte wählen Sie einen anderen Namen.");
+                return;
+            }
+
             HandshakeData handshakeData = client.getHandshakeData();
             String sessionId = handshakeData.getSingleUrlParam("sessionId");
             Team newTeam = new Team();
             newTeam.setName(teamName);
             newTeam.setSessionId(sessionId);
             teamRepository.save(newTeam);
+
             // Broadcast the updated team list to the management room
             server.getRoomOperations("management").sendEvent("updateTeams", teamRepository.findAll());
+
             // Send the newly created team as the acknowledgment response
             ackSender.sendAckData(newTeam);
         });
@@ -220,7 +230,7 @@ public class SocketIOService {
             System.out.println("Received answer submission: " + answerData.getAnswerText());
             if (isSolutionShown) { // Reject answers if the solution is being shown
                 System.out.println("Answer submission rejected: Solution is currently being shown");
-                ackSender.sendAckData("Error: Answers cannot be submitted while the solution is being shown. But nice try :)");
+                ackSender.sendAckData("Error: Answers cannot be submitted while the solution is being shown.");
                 return;
             }
             Team team = teamRepository.findById(answerData.getTeamId()).orElse(null);
@@ -231,12 +241,12 @@ public class SocketIOService {
                 Answer existingAnswer = answerRepository.findByTeamAndQuestion(team, currentQuestion);
                 if (currentClueNumber == 0) {
                     System.out.println("Bruddi warte doch" + team.getName());
-                    ackSender.sendAckData("Error: Chill and wait for Clues or you have no chance to win trust me");
+                    ackSender.sendAckData("Error: Entspann dich und warte auf Hinweise oder du hast keine Chance zu gewinnen, vertrau mir");
                     return; // Do not save a new answer
                 }
                 if (existingAnswer != null) {
                     System.out.println("Team has already submitted an answer for this question: " + team.getName());
-                    ackSender.sendAckData("Error: You can only answer a question once. I told you.");
+                    ackSender.sendAckData("Error: Sie können eine Frage nur einmal beantworten. Ich habe es dir gesagt.");
                     return; // Do not save a new answer
                 }
 

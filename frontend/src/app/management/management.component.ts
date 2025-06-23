@@ -115,6 +115,7 @@ export class ManagementComponent implements OnInit {
       let y = 20;
       this.teams.forEach((team) => {
         doc.setFontSize(12);
+        doc.text('',10,y);
         doc.text(`Team: ${team.name}`, 10, y);
         doc.text(`Score: ${team.score}`, 10, y + 5);
 

@@ -18,10 +18,7 @@ export class SocketioService {
     }
 
     let backendUrl =  window.location.origin; // Use environment or current host
-    console.log("Socker URL")
-    console.log(backendUrl)
-    console.log(window.location.origin)
-   // backendUrl = "localhost:9090"
+    //backendUrl = "localhost:9090"
     this.socket = io(`${backendUrl}`, { // Connect to the correct backend URL
       query: { sessionId }, // Send sessionId as a query parameter
       transports: ['websocket', 'polling'], // Ensure both WebSocket and polling are supported

@@ -56,17 +56,42 @@ export class InputComponent {
 
   submitTeamName() {
     if (this.isSubmitting) return; // Prevent multiple submissions
+
+    // Validate teamName
+    if (!this.teamName || this.teamName.trim() === '') {
+        this.errorMessage = 'Team name cannot be empty or whitespace.';
+        this.snackBar.open(this.errorMessage, '', {
+            duration: 5000,
+            panelClass: ['error-snackbar'], // Add custom class for styling
+            verticalPosition: 'top' // Position the snackbar at the top
+        });
+        return;
+    }
+
     this.isSubmitting = true; // Set the flag to true when submitting
     this.isTeamCheckComplete = false; // Reset the flag when submitting
-    this.socketService.sendMessage('createTeam', this.teamName, (newTeam: Team) => {
-      this.team = newTeam; // Set the newly created team
-      this.teamExists = true; // Set the flag to true
-      this.isSubmitting = false; // Reset the flag after the flow completes
-      this.isTeamCheckComplete = true; // Mark the team check as complete after creation
+    this.socketService.sendMessage('createTeam', this.teamName.trim(), (response: any) => {
+        if (typeof response === 'string' && response.startsWith('Error:')) {
+            this.errorMessage = response.replace('Error:', '').trim(); // Extract and display the error message
+            this.snackBar.open(this.errorMessage, '', {
+                duration: 5000,
+                panelClass: ['error-snackbar'], // Add custom class for styling
+                verticalPosition: 'top' // Position the snackbar at the top
+            });
+            this.isSubmitting = false; // Reset the flag
+          setTimeout(() => {
+            window.location.reload();
+          }, 5000); // 5000 milliseconds = 5 seconds
+            return;
+        }
 
-      if (newTeam && newTeam.id) {
-        this.socketService.joinRoom(newTeam.id.toString()); // Join the room for the team
-      }
+        this.team = response; // Set the newly created team
+        this.teamExists = true; // Set the flag to true
+        this.isSubmitting = false; // Reset the flag after the flow completes
+        this.isTeamCheckComplete = true; // Mark the team check as complete after creation
+        if (response && response.id) {
+            this.socketService.joinRoom(response.id.toString()); // Join the room for the team
+        }
     });
   }
 
