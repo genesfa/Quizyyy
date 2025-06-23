@@ -29,22 +29,29 @@ export class QuizComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.socketService.connect();
+    console.log('Socket connected'); // Debug log
 
-    // Subscribe to the 'triggerConffeti' event
-    this.confettiSubscription = this.socketService.onMessage('triggerConfetti').subscribe(() => {
-      console.log('triggerConfetti');
-      this.shotConfetti(true)
+    this.socketService.joinRoom('management');
+    console.log('Joined management room'); // Debug log
+
+    this.socketService.onMessage('managementWelcome').subscribe((message: string) => {
+      console.log('Received managementWelcome event:', message); // Debug log
     });
-    this.shotConfetti(false);
 
-    // Subscribe to the 'updateTeams' event to update top teams
+    this.confettiSubscription = this.socketService.onMessage('triggerConfetti').subscribe(() => {
+      console.log('Received triggerConfetti event'); // Debug log
+      this.shotConfetti(true);
+    });
+
     this.topTeamsSubscription = this.socketService.onMessage('updateTeams').subscribe((teams: any[]) => {
+      console.log('Received updateTeams event', teams); // Debug log
       this.topTeams = teams
         .sort((a, b) => b.score - a.score)
         .slice(0, 5);
     });
-    // Subscribe to the 'updateQuestions' event to update the current question
+
     this.socketService.onMessage('updateQuestions').subscribe((data: any) => {
+      console.log('Received updateQuestions event', data); // Debug log
       this.currentQuestion = { id: data.id, clues: [], solution: "" }; // Reset clues and solution
       this.showCluesAndSolution = false; // Reset clues visibility
       this.showSolution = false; // Reset solution visibility

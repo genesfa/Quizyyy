@@ -56,6 +56,7 @@ public class SocketIOService {
     private final AtomicInteger currentQuestionIndex = new AtomicInteger(0); // Track the current question index
     private List<Question> questions; // Cache the list of questions
     private Integer currentClueNumber = 0;
+    private boolean isSolutionShown = false; // Add a flag to track if the solution is being shown
 
     @PostConstruct
     public void startServer() {
@@ -120,15 +121,15 @@ public class SocketIOService {
             newTeam.setName(teamName);
             newTeam.setSessionId(sessionId);
             teamRepository.save(newTeam);
-            // Broadcast the updated team list to all clients
-            server.getBroadcastOperations().sendEvent("updateTeams", teamRepository.findAll());
+            // Broadcast the updated team list to the management room
+            server.getRoomOperations("management").sendEvent("updateTeams", teamRepository.findAll());
             // Send the newly created team as the acknowledgment response
             ackSender.sendAckData(newTeam);
         });
 
         server.addEventListener("triggerConfetti", String.class, (client, data, ackSender) -> {
             System.out.println("triggerConfetti");
-            server.getBroadcastOperations().sendEvent("triggerConfetti");
+            server.getRoomOperations("management").sendEvent("triggerConfetti");
             ackSender.sendAckData("Message received by server");
             questionRepository.findAll().forEach(question -> {System.out.println(question.getName());});
         });
@@ -145,8 +146,8 @@ public class SocketIOService {
                 team.setScore(updatedTeam.getScore());
                 teamRepository.save(team);
                 System.out.println("Score updated for team: " + team.getName() + " to " + team.getScore());
-                // Broadcast the updated team list to all clients
-                server.getBroadcastOperations().sendEvent("updateTeams", teamRepository.findAll());
+                // Broadcast the updated team list to the management room
+                server.getRoomOperations("management").sendEvent("updateTeams", teamRepository.findAll());
                 ackSender.sendAckData("Score updated successfully");
             } else {
                 System.out.println("Team not found with ID: " + updatedTeam.getId());
@@ -165,6 +166,7 @@ public class SocketIOService {
             if (currentQuestionIndex.incrementAndGet() >= questions.size()) {
                 currentQuestionIndex.set(questions.size() - 1); // Prevent going out of bounds
             }
+            isSolutionShown = false; // Reset the flag when moving to the next question
             broadcastQuestionUpdate();
         });
 
@@ -174,12 +176,15 @@ public class SocketIOService {
             if (currentQuestionIndex.decrementAndGet() < 0) {
                 currentQuestionIndex.set(0); // Prevent going below 0
             }
+            isSolutionShown = false; // Reset the flag when moving to the previous question
             broadcastQuestionUpdate();
         });
 
         server.addEventListener("showSolution", Void.class, (client, data, ackRequest) -> {
             System.out.println("Show Solution event triggered");
-            server.getBroadcastOperations().sendEvent("showSolution", questions.get(currentQuestionIndex.get()).getSolution());
+            Question currentQuestion = questions.get(currentQuestionIndex.get());
+            isSolutionShown = true; // Set the flag to true when the solution is shown
+            server.getRoomOperations("management").sendEvent("showSolution", currentQuestion.getSolution());
         });
 
         server.addEventListener("showClue", Integer.class, (client, data, ackRequest) -> {
@@ -207,12 +212,17 @@ public class SocketIOService {
             }
 
             if (clue != null) {
-                server.getBroadcastOperations().sendEvent("showClue", new ClueData(clueNumber, clue));
+                server.getRoomOperations("management").sendEvent("showClue", new ClueData(clueNumber, clue));
             }
         });
 
         server.addEventListener("submitAnswer", AnswerVO.class, (client, answerData, ackSender) -> {
             System.out.println("Received answer submission: " + answerData.getAnswerText());
+            if (isSolutionShown) { // Reject answers if the solution is being shown
+                System.out.println("Answer submission rejected: Solution is currently being shown");
+                ackSender.sendAckData("Error: Answers cannot be submitted while the solution is being shown. But nice try :)");
+                return;
+            }
             Team team = teamRepository.findById(answerData.getTeamId()).orElse(null);
             Question currentQuestion = questions.get(currentQuestionIndex.get()); // Fetch the current question directly
 
@@ -240,14 +250,14 @@ public class SocketIOService {
 
                 ackSender.sendAckData("Answer processed successfully");
 
-                // Broadcast updated answers for the current question
+                // Broadcast updated answers for the current question to the management room
                 List<Answer> answers = answerRepository.findByQuestion(currentQuestion);
                 Map<Long, Map<String, Object>> teamAnswers = answers.stream()
                     .collect(Collectors.toMap(
                         a -> a.getTeam().getId(),
                         a -> Map.of("answerText", a.getAnswerText(), "clueNumber", a.getClueNumber())
                     ));
-                server.getBroadcastOperations().sendEvent("updateAnswersForCurrentQuestion", teamAnswers);
+                server.getRoomOperations("management").sendEvent("updateAnswersForCurrentQuestion", teamAnswers);
             } else {
                 System.out.println("Invalid team or question ID");
                 ackSender.sendAckData("Error: Invalid team or question ID.");
@@ -309,6 +319,11 @@ public class SocketIOService {
             client.joinRoom(roomName);
             System.out.println("Client " + client.getSessionId() + " joined room: " + roomName);
 
+            // Log all clients in the room
+            server.getRoomOperations(roomName).getClients().forEach(c -> 
+                System.out.println("Client in room " + roomName + ": " + c.getSessionId())
+            );
+
             if ("management".equals(roomName)) {
                 client.sendEvent("managementWelcome", "Welcome to the management room!");
             }
@@ -326,8 +341,9 @@ public class SocketIOService {
         System.out.println("Current question: " + questions.get(currentQuestionIndex.get()));
         Question currentQuestion = questions.get(currentQuestionIndex.get());
         currentClueNumber = 0;
-        server.getBroadcastOperations().sendEvent("updateQuestions", currentQuestion);
-        server.getBroadcastOperations().sendEvent("currentQuestionId", currentQuestion.getId()); // Emit the current question ID
+        // Send updates only to the management room
+        server.getRoomOperations("management").sendEvent("updateQuestions", currentQuestion);
+        server.getRoomOperations("management").sendEvent("currentQuestionId", currentQuestion.getId()); // Emit the current question ID
     }
 
     private String getCurrentQuestion() {

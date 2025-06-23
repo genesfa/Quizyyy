@@ -6,7 +6,7 @@
     "start": "ng serve --port 9999",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "watch": "ng build --watch --configuration production",
+    "buildPRod": "ng build --watch --configuration production",
     "test": "ng test",
     "tailwind:init": "exec tailwindcss init -p"
   },
