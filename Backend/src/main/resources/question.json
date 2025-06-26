@@ -1,52 +1,182 @@
 [
   {
-    "id": 1,
+    "id": 6,
     "questionType": "topic",
-    "name": "Preis nicht an",
-    "clue1": "Grigori Perelman, 2006",
-    "clue2": "Jean-Paul Sartre, 1964",
-    "clue3": "Marlon Brando, 1973",
-    "clue4": "Marcel Reich-Ranicki, 2008",
-    "solution": "Ich nehme diesen Preis nicht an"
-  },
-    {
-      "id": 2,
-      "questionType": "topic",
-      "name": "Passwortstärke",
-      "clue1": "Schlangenzunge stärker als Aragorn",
-      "clue2": "Boeing747 sicherer als ICE",
-      "clue3": "A$AP_Rocky besser asl Eminem",
-      "clue4": "2kgM&Ms schwerer als Elefant",
-      "solution": "Passwortstärke (Begriff 1 > Begriff 2)"
-    },
-    {
-      "id": 3,
-      "questionType": "topic",
-      "name": "Obere Tastatur reige",
-      "clue1": "Urzeit",
-      "clue2": "Tür",
-      "clue3": "Power",
-      "clue4": "Route",
-      "solution": "Wörter aus der obersten Buchstabenreihe der Tastatur (Deutsch)"
-    },
-  {
-    "id": 4,
-    "questionType": "topic",
-    "name": "Rumpelstilzchen",
-    "clue1": "Kaspar",
-    "clue2": "Schnürbein",
-    "clue3": "Rippenbiest",
-    "clue4": "Hammelswade",
-    "solution": "Falsche Namen vom Rumpelstilzchen"
+    "name": "Messenger Apps",
+    "clue1": "Signal",
+    "clue2": "Discord",
+    "clue3": "Telegram",
+    "clue4": "WhatsApp",
+    "solution": "Messenger-Apps"
   },
   {
-    "id": 5,
+    "id": 7,
     "questionType": "topic",
-    "name": "Wilde Kerle",
-    "clue1": "Fabi",
-    "clue2": "Maxi",
-    "clue3": "Leon",
-    "clue4": "Raban",
-    "solution": "Wilde Kerle (Buch/Film reihe)"
+    "name": "Blonde Figuren",
+    "clue1": "Neil Armstrong",
+    "clue2": "Tinker Bell",
+    "clue3": "Katharina Boguth",
+    "clue4": "Marilyn Monroe",
+    "solution": "Figuren mit blonden Haaren"
+  },
+  {
+    "id": 8,
+    "questionType": "topic",
+    "name": "Lieder mit Buch-/Filmreferenzen",
+    "clue1": "Me, Myself & Hyde → Jekyll und Hyde",
+    "clue2": "Goodbye Yellow Brick Road → Der Zauberer von Oz",
+    "clue3": "Love Story → Romeo und Julia",
+    "clue4": "Brave New World → Brave New World",
+    "solution": "Songs mit literarischen/filmischen Bezügen"
+  },
+  {
+    "id": 9,
+    "questionType": "topic",
+    "name": "Pokémon-Namen",
+    "clue1": "Dracaufeu",
+    "clue2": "Carapuce",
+    "clue3": "Tucanon",
+    "clue4": "Jynx",
+    "solution": "Pokémon-Namen in verschiedenen Sprachen/Generationen"
+  },
+  {
+    "id": 10,
+    "questionType": "topic",
+    "name": "Streiche von Max und Moritz",
+    "clue1": "Hängende Hühner",
+    "clue2": "Brücke Lücke",
+    "clue3": "Explodierende Pfeife",
+    "clue4": "Mühle Mahle",
+    "solution": "Streiche von Max und Moritz"
+  },
+  {
+    "id": 11,
+    "questionType": "topic",
+    "name": "Faust-Charaktere",
+    "clue1": "Heinrich",
+    "clue2": "Wagner",
+    "clue3": "Marthe",
+    "clue4": "Gretchen",
+    "solution": "Charaktere aus Goethes Faust"
+  },
+  {
+    "id": 12,
+    "questionType": "topic",
+    "name": "Microsoft Office Icons",
+    "clue1": "P: Orange",
+    "clue2": "N: Lila",
+    "clue3": "W: Blau",
+    "clue4": "X: Grün",
+    "solution": "Microsoft Office Programme anhand der Icons"
+  },
+  {
+    "id": 13,
+    "questionType": "topic",
+    "name": "Teure Sammelkarten",
+    "clue1": "Mickey Mantle",
+    "clue2": "Honus Wagner",
+    "clue3": "The One Ring",
+    "clue4": "Pokémon Illustrator",
+    "solution": "Sehr wertvolle Sammelkarten"
+  },
+  {
+    "id": 14,
+    "questionType": "topic",
+    "name": "Rebsorten",
+    "clue1": "Saint Laurent",
+    "clue2": "Portugieser",
+    "clue3": "Müller-Thurgau",
+    "clue4": "Silvaner",
+    "solution": "Rebsorten (rot und weiß)"
+  },
+  {
+    "id": 15,
+    "questionType": "topic",
+    "name": "Programmiersprachen",
+    "clue1": "Pascal",
+    "clue2": "Ruby",
+    "clue3": "Python",
+    "clue4": "Java",
+    "solution": "Programmiersprachen mit symbolischen Namen"
+  },
+  {
+    "id": 16,
+    "questionType": "topic",
+    "name": "Deutsche Orte in Fremdsprachen",
+    "clue1": "Μόναχο",
+    "clue2": "Ratyzbona",
+    "clue3": "Hampuri",
+    "clue4": "Francoforte sobre o Meno",
+    "solution": "Deutsche Städte in anderen Sprachen"
+  },
+  {
+    "id": 17,
+    "questionType": "topic",
+    "name": "Drachenbefehle (GOT)",
+    "clue1": "Lykirī",
+    "clue2": "Sōvēs",
+    "clue3": "Dohaerās",
+    "clue4": "Dracarys",
+    "solution": "Befehle an Drachen in Hochvalyrisch (Game of Thrones)"
+  },
+  {
+    "id": 18,
+    "questionType": "topic",
+    "name": "Um-Wörter",
+    "clue1": "Umfahren",
+    "clue2": "Umgehen",
+    "clue3": "Umtreten",
+    "clue4": "Umbauen",
+    "solution": "Verben, denen man 'Um-' voranstellen kann"
+  },
+  {
+    "id": 19,
+    "questionType": "topic",
+    "name": "Legendäre Memes",
+    "clue1": "Doge",
+    "clue2": "Keyboard Cat",
+    "clue3": "Distracted Boyfriend",
+    "clue4": "Rickroll",
+    "solution": "Bekannte Internet-Memes"
+  },
+  {
+    "id": 20,
+    "questionType": "topic",
+    "name": "Fiktive Planeten/Orte",
+    "clue1": "Azeroth",
+    "clue2": "Yavin 4",
+    "clue3": "Arrakis",
+    "clue4": "Pandora",
+    "solution": "Fiktive Welten aus Sci-Fi/Fantasy"
+  },
+  {
+    "id": 21,
+    "questionType": "topic",
+    "name": "Landmaschinenhersteller",
+    "clue1": "Valtra",
+    "clue2": "Lamborghini",
+    "clue3": "Claas",
+    "clue4": "Lindner",
+    "solution": "Hersteller von Landmaschinen"
+  },
+  {
+    "id": 22,
+    "questionType": "topic",
+    "name": "RedBull Extremsportler",
+    "clue1": "Danny McAskill",
+    "clue2": "Shaun White",
+    "clue3": "Felix Baumgartner",
+    "clue4": "Sebastian Vettel",
+    "solution": "Bekannte Extremsportler von RedBull"
+  },
+  {
+    "id": 23,
+    "questionType": "topic",
+    "name": "Geldscheine",
+    "clue1": "Jane Austen",
+    "clue2": "Elisabeth II.",
+    "clue3": "Nelson Mandela",
+    "clue4": "George Washington",
+    "solution": "Persönlichkeiten auf Geldscheinen"
   }
 ]
