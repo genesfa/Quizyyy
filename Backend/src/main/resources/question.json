@@ -1,6 +1,6 @@
 [
   {
-    "id": 6,
+    "id": 1,
     "questionType": "topic",
     "name": "Messenger Apps",
     "clue1": "Signal",
@@ -10,7 +10,7 @@
     "solution": "Messenger-Apps"
   },
   {
-    "id": 7,
+    "id": 2,
     "questionType": "topic",
     "name": "Blonde Figuren",
     "clue1": "Neil Armstrong",
@@ -20,7 +20,7 @@
     "solution": "Figuren mit blonden Haaren"
   },
   {
-    "id": 8,
+    "id": 3,
     "questionType": "topic",
     "name": "Lieder mit Buch-/Filmreferenzen",
     "clue1": "Me, Myself & Hyde → Jekyll und Hyde",
@@ -30,17 +30,17 @@
     "solution": "Songs mit literarischen/filmischen Bezügen"
   },
   {
-    "id": 9,
+    "id": 4,
     "questionType": "topic",
     "name": "Pokémon-Namen",
     "clue1": "Dracaufeu",
     "clue2": "Carapuce",
     "clue3": "Tucanon",
     "clue4": "Jynx",
-    "solution": "Pokémon-Namen in verschiedenen Sprachen/Generationen"
+    "solution": "Pokémon-Namen in verschiedenen Sprachen"
   },
   {
-    "id": 10,
+    "id": 5,
     "questionType": "topic",
     "name": "Streiche von Max und Moritz",
     "clue1": "Hängende Hühner",
@@ -50,7 +50,7 @@
     "solution": "Streiche von Max und Moritz"
   },
   {
-    "id": 11,
+    "id": 6,
     "questionType": "topic",
     "name": "Faust-Charaktere",
     "clue1": "Heinrich",
@@ -60,27 +60,17 @@
     "solution": "Charaktere aus Goethes Faust"
   },
   {
-    "id": 12,
+    "id": 7,
     "questionType": "topic",
     "name": "Microsoft Office Icons",
     "clue1": "P: Orange",
     "clue2": "N: Lila",
     "clue3": "W: Blau",
     "clue4": "X: Grün",
-    "solution": "Microsoft Office Programme anhand der Icons"
+    "solution": "Microsoft Office Programme anhand ihrer Icons"
   },
   {
-    "id": 13,
-    "questionType": "topic",
-    "name": "Teure Sammelkarten",
-    "clue1": "Mickey Mantle",
-    "clue2": "Honus Wagner",
-    "clue3": "The One Ring",
-    "clue4": "Pokémon Illustrator",
-    "solution": "Sehr wertvolle Sammelkarten"
-  },
-  {
-    "id": 14,
+    "id": 8,
     "questionType": "topic",
     "name": "Rebsorten",
     "clue1": "Saint Laurent",
@@ -90,7 +80,7 @@
     "solution": "Rebsorten (rot und weiß)"
   },
   {
-    "id": 15,
+    "id": 9,
     "questionType": "topic",
     "name": "Programmiersprachen",
     "clue1": "Pascal",
@@ -99,18 +89,9 @@
     "clue4": "Java",
     "solution": "Programmiersprachen mit symbolischen Namen"
   },
+
   {
-    "id": 16,
-    "questionType": "topic",
-    "name": "Deutsche Orte in Fremdsprachen",
-    "clue1": "Μόναχο",
-    "clue2": "Ratyzbona",
-    "clue3": "Hampuri",
-    "clue4": "Francoforte sobre o Meno",
-    "solution": "Deutsche Städte in anderen Sprachen"
-  },
-  {
-    "id": 17,
+    "id": 10,
     "questionType": "topic",
     "name": "Drachenbefehle (GOT)",
     "clue1": "Lykirī",
@@ -120,17 +101,17 @@
     "solution": "Befehle an Drachen in Hochvalyrisch (Game of Thrones)"
   },
   {
-    "id": 18,
+    "id": 11,
     "questionType": "topic",
     "name": "Um-Wörter",
-    "clue1": "Umfahren",
-    "clue2": "Umgehen",
-    "clue3": "Umtreten",
-    "clue4": "Umbauen",
+    "clue1": "fahren",
+    "clue2": "gehen",
+    "clue3": "treten",
+    "clue4": "bauen",
     "solution": "Verben, denen man 'Um-' voranstellen kann"
   },
   {
-    "id": 19,
+    "id": 12,
     "questionType": "topic",
     "name": "Legendäre Memes",
     "clue1": "Doge",
@@ -140,7 +121,7 @@
     "solution": "Bekannte Internet-Memes"
   },
   {
-    "id": 20,
+    "id": 13,
     "questionType": "topic",
     "name": "Fiktive Planeten/Orte",
     "clue1": "Azeroth",
@@ -150,7 +131,7 @@
     "solution": "Fiktive Welten aus Sci-Fi/Fantasy"
   },
   {
-    "id": 21,
+    "id": 14,
     "questionType": "topic",
     "name": "Landmaschinenhersteller",
     "clue1": "Valtra",
@@ -160,7 +141,7 @@
     "solution": "Hersteller von Landmaschinen"
   },
   {
-    "id": 22,
+    "id": 15,
     "questionType": "topic",
     "name": "RedBull Extremsportler",
     "clue1": "Danny McAskill",
@@ -170,7 +151,7 @@
     "solution": "Bekannte Extremsportler von RedBull"
   },
   {
-    "id": 23,
+    "id": 16,
     "questionType": "topic",
     "name": "Geldscheine",
     "clue1": "Jane Austen",
@@ -178,5 +159,25 @@
     "clue3": "Nelson Mandela",
     "clue4": "George Washington",
     "solution": "Persönlichkeiten auf Geldscheinen"
+  },
+  {
+    "id": 17,
+    "questionType": "topic",
+    "name": "Teure Sammelkarten",
+    "clue1": "Mickey Mantle",
+    "clue2": "Honus Wagner",
+    "clue3": "The One Ring",
+    "clue4": "Pokémon Illustrator",
+    "solution": "Sehr wertvolle Sammelkarten"
+  },
+  {
+    "id": 18,
+    "questionType": "topic",
+    "name": "Deutsche Orte in Fremdsprachen",
+    "clue1": "Μόναχο",
+    "clue2": "Ratyzbona",
+    "clue3": "Hampuri",
+    "clue4": "Francoforte sobre o Meno",
+    "solution": "Deutsche Städte in anderen Sprachen"
   }
 ]

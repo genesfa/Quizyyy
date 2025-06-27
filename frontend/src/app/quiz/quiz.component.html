@@ -5,7 +5,7 @@
   </div>
   <div *ngIf="currentQuestion" class="active-question">
     <div class="question-id-card">
-      <h3>Question: {{ currentQuestion.id }}</h3>
+      <h3>Frage: {{ currentQuestion.id }}</h3>
     </div>
     <div *ngIf="showCluesAndSolution">
       <div *ngFor="let clue of currentQuestion.clues; let i = index" class="clue-card">

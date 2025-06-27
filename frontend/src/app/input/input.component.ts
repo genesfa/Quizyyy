@@ -59,7 +59,7 @@ export class InputComponent {
 
     // Validate teamName
     if (!this.teamName || this.teamName.trim() === '') {
-        this.errorMessage = 'Team name cannot be empty or whitespace.';
+        this.errorMessage = 'Der Teamname darf nicht leer oder mit Leerzeichen versehen sein.';
         this.snackBar.open(this.errorMessage, '', {
             duration: 5000,
             panelClass: ['error-snackbar'], // Add custom class for styling
@@ -103,9 +103,8 @@ export class InputComponent {
     const answerText = this.answer;
 
     if (!teamId || !answerText) {
-      console.error('Missing required data for answer submission:', { teamId, answerText });
       this.isSubmittingAnswer = false; // Reset the flag
-      this.errorMessage = 'You should type something';
+      this.errorMessage = 'Du sollten etwas eingeben';
       this.snackBar.open(this.errorMessage, '', {
         duration: 5000,
         panelClass: ['error-snackbar'], // Add custom class for styling
@@ -130,7 +129,6 @@ export class InputComponent {
             verticalPosition: 'top' // Position the snackbar at the top
           });
         } else {
-          console.log('Answer submitted successfully'); // Log for debugging
           this.answer = ''; // Clear the answer field after submission
           this.errorMessage = ''; // Clear any previous error messages
         }

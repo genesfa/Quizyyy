@@ -230,7 +230,7 @@ public class SocketIOService {
             System.out.println("Received answer submission: " + answerData.getAnswerText());
             if (isSolutionShown) { // Reject answers if the solution is being shown
                 System.out.println("Answer submission rejected: Solution is currently being shown");
-                ackSender.sendAckData("Error: Answers cannot be submitted while the solution is being shown.");
+                ackSender.sendAckData("Error: Während die Lösung gezeigt wird, können keine Antworten eingereicht werden. Aber guter versuche.");
                 return;
             }
             Team team = teamRepository.findById(answerData.getTeamId()).orElse(null);
@@ -270,7 +270,7 @@ public class SocketIOService {
                 server.getRoomOperations("management").sendEvent("updateAnswersForCurrentQuestion", teamAnswers);
             } else {
                 System.out.println("Invalid team or question ID");
-                ackSender.sendAckData("Error: Invalid team or question ID.");
+                ackSender.sendAckData("Error: Ups da ist was schiefgelaufen");
             }
         });
 
