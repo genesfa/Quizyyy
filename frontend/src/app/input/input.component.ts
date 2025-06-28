@@ -131,6 +131,11 @@ export class InputComponent {
         } else {
           this.answer = ''; // Clear the answer field after submission
           this.errorMessage = ''; // Clear any previous error messages
+          this.snackBar.open("Gesendet", '', {
+            duration: 5000,
+          //  panelClass: ['error-snackbar'], // Add custom class for styling
+            verticalPosition: 'top' // Position the snackbar at the top
+          });
         }
         this.isSubmittingAnswer = false; // Reset the flag after submission
       }
