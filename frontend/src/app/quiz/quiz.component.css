@@ -168,7 +168,7 @@ body {
 .qr-code-container.bottom-right {
   position: fixed;
   bottom: 20px;
-  right: 20px;
+  right: 600px;
   z-index: 1000;
 }
 
