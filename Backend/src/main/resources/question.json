@@ -2,7 +2,7 @@
   {
     "id": 1,
     "questionType": "topic",
-    "name": "Messenger Apps",
+    "name": "Messenger Apps Test (L)",
     "clue1": "Signal",
     "clue2": "Discord",
     "clue3": "Telegram",
@@ -12,7 +12,7 @@
   {
     "id": 2,
     "questionType": "topic",
-    "name": "Blonde Figuren",
+    "name": "Blonde Figuren Test (F)",
     "clue1": "Neil Armstrong",
     "clue2": "Tinker Bell",
     "clue3": "Katharina Boguth",
@@ -22,17 +22,17 @@
   {
     "id": 3,
     "questionType": "topic",
-    "name": "Lieder mit Buch-/Filmreferenzen",
-    "clue1": "Me, Myself & Hyde → Jekyll und Hyde",
-    "clue2": "Goodbye Yellow Brick Road → Der Zauberer von Oz",
-    "clue3": "Love Story → Romeo und Julia",
-    "clue4": "Brave New World → Brave New World",
+    "name": "Lieder mit Buch-/Filmreferenzen (L)",
+    "clue1": "Me, Myself & Hyde (Ice Nine Kills)",
+    "clue2": "Goodbye Yellow Brick Road (Elton John)",
+    "clue3": "Love Story (Taylor Swift)",
+    "clue4": "Brave New World (Iron Maiden)",
     "solution": "Songs mit literarischen/filmischen Bezügen"
   },
   {
     "id": 4,
     "questionType": "topic",
-    "name": "Pokémon-Namen",
+    "name": "Pokémon-Namen (F)",
     "clue1": "Dracaufeu",
     "clue2": "Carapuce",
     "clue3": "Tucanon",
@@ -42,7 +42,7 @@
   {
     "id": 5,
     "questionType": "topic",
-    "name": "Streiche von Max und Moritz",
+    "name": "Streiche von Max und Moritz (L)",
     "clue1": "Hängende Hühner",
     "clue2": "Brücke Lücke",
     "clue3": "Explodierende Pfeife",
@@ -52,7 +52,7 @@
   {
     "id": 6,
     "questionType": "topic",
-    "name": "Faust-Charaktere",
+    "name": "Faust-Charaktere (F)",
     "clue1": "Heinrich",
     "clue2": "Wagner",
     "clue3": "Marthe",
@@ -62,7 +62,7 @@
   {
     "id": 7,
     "questionType": "topic",
-    "name": "Microsoft Office Icons",
+    "name": "Microsoft Office Icons (L)",
     "clue1": "P: Orange",
     "clue2": "N: Lila",
     "clue3": "W: Blau",
@@ -72,7 +72,7 @@
   {
     "id": 8,
     "questionType": "topic",
-    "name": "Rebsorten",
+    "name": "Rebsorten (L)",
     "clue1": "Saint Laurent",
     "clue2": "Portugieser",
     "clue3": "Müller-Thurgau",
@@ -82,18 +82,18 @@
   {
     "id": 9,
     "questionType": "topic",
-    "name": "Programmiersprachen",
-    "clue1": "Pascal",
-    "clue2": "Ruby",
-    "clue3": "Python",
-    "clue4": "Java",
+    "name": "Programmiersprachen (F)",
+    "clue1": "Männername",
+    "clue2": "Edelstein",
+    "clue3": "Schlange",
+    "clue4": "Insel",
     "solution": "Programmiersprachen mit symbolischen Namen"
   },
 
   {
     "id": 10,
     "questionType": "topic",
-    "name": "Drachenbefehle (GOT)",
+    "name": "Drachenbefehle (GOT) (L)",
     "clue1": "Lykirī",
     "clue2": "Sōvēs",
     "clue3": "Dohaerās",
@@ -103,7 +103,7 @@
   {
     "id": 11,
     "questionType": "topic",
-    "name": "Um-Wörter",
+    "name": "Um-Wörter (F)",
     "clue1": "fahren",
     "clue2": "gehen",
     "clue3": "treten",
@@ -113,7 +113,7 @@
   {
     "id": 12,
     "questionType": "topic",
-    "name": "Legendäre Memes",
+    "name": "Legendäre Memes (F)",
     "clue1": "Doge",
     "clue2": "Keyboard Cat",
     "clue3": "Distracted Boyfriend",
@@ -123,7 +123,7 @@
   {
     "id": 13,
     "questionType": "topic",
-    "name": "Fiktive Planeten/Orte",
+    "name": "Fiktive Planeten/Orte (L)",
     "clue1": "Azeroth",
     "clue2": "Yavin 4",
     "clue3": "Arrakis",
@@ -133,7 +133,7 @@
   {
     "id": 14,
     "questionType": "topic",
-    "name": "Landmaschinenhersteller",
+    "name": "Landmaschinenhersteller (F)",
     "clue1": "Valtra",
     "clue2": "Lamborghini",
     "clue3": "Claas",
@@ -143,7 +143,7 @@
   {
     "id": 15,
     "questionType": "topic",
-    "name": "RedBull Extremsportler",
+    "name": "RedBull Extremsportler (L)",
     "clue1": "Danny McAskill",
     "clue2": "Shaun White",
     "clue3": "Felix Baumgartner",
@@ -153,7 +153,7 @@
   {
     "id": 16,
     "questionType": "topic",
-    "name": "Geldscheine",
+    "name": "Geldscheine (F)",
     "clue1": "Jane Austen",
     "clue2": "Elisabeth II.",
     "clue3": "Nelson Mandela",
@@ -163,7 +163,7 @@
   {
     "id": 17,
     "questionType": "topic",
-    "name": "Teure Sammelkarten",
+    "name": "Teure Sammelkarten (L)",
     "clue1": "Mickey Mantle",
     "clue2": "Honus Wagner",
     "clue3": "The One Ring",
@@ -173,7 +173,7 @@
   {
     "id": 18,
     "questionType": "topic",
-    "name": "Deutsche Orte in Fremdsprachen",
+    "name": "Deutsche Orte in Fremdsprachen (F)",
     "clue1": "Μόναχο",
     "clue2": "Ratyzbona",
     "clue3": "Hampuri",
